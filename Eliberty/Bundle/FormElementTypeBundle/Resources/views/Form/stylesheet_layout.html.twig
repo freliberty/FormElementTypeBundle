@@ -1,0 +1,77 @@
+{% block rp_boolean_stylesheet %}
+{% spaceless %}
+ {% stylesheets '@RedpillBundle/Resources/public/css/bool_form.css' %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+ {% endstylesheets %}
+{% endspaceless %}
+{% endblock rp_boolean_stylesheet %}
+
+{% block rp_markdown_editor_stylesheet %}
+    {% spaceless %}
+        {% stylesheets
+            '@RedpillBundle/Resources/public/bootstrap-markdown/css/bootstrap-markdown.min.css'
+        %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+        {% endstylesheets %}
+    {% endspaceless %}
+{% endblock rp_markdown_editor_stylesheet %}
+
+{% block rp_datepicker_stylesheet %}
+ {% stylesheets '@bootstrap_datepicker_css' %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+ {% endstylesheets %}
+{% endblock rp_datepicker_stylesheet %}
+
+{% block rp_multiselect_stylesheet %}
+ {% stylesheets 
+    '@RedpillBundle/Resources/public/bootstrap-multiselect-master/css/bootstrap-multiselect.css'
+     %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+ {% endstylesheets %}
+{% endblock rp_multiselect_stylesheet %}
+
+{% block rp_tags_stylesheet %}
+ {% stylesheets 
+    '@RedpillBundle/Resources/public/selectize.js-master/dist/css/selectize.default.css'
+     %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+ {% endstylesheets %}
+{% endblock rp_tags_stylesheet %}
+
+{% block rp_rest_choice_stylesheet %}
+{% endblock rp_rest_choice_stylesheet %}
+
+{% block rp_file_upload_stylesheet %}
+    <script type="text/javascript">
+        //on va modifier le texte du bouton d'upload de justif si etudiant :
+        var txtBtnChooseFile = "{% trans %}rp.generic.upload.btn.file{% endtrans %}";
+        var txtCancel ="{% trans %}rp.generic.cancel{% endtrans %}";
+        var txtProbleme ="{% trans %}rp.generic.problem{% endtrans %}";
+        var txtBtnRetry ="{% trans %}rp.generic.retry{% endtrans %}";
+        var txtUploadFailed = "{% trans %}rp.generic.upload.failed{% endtrans %}";
+        var txtFrom = "{% trans %}rp.generic.from{% endtrans %}";
+        var txtPending = "{% trans %}rp.generic.pending{% endtrans %}";
+        var txtMessageTypeError = "{% trans %}rp.generic.upload.typeError{% endtrans %}";
+        var txtMessageSizeError= "{% trans %}rp.generic.upload.sizeError{% endtrans %}";
+        var txtMessageMinSizeError= "{% trans %}rp.generic.upload.minSizeError{% endtrans %}";
+        var txtMessageEmptyError= "{% trans %}rp.generic.upload.empty{% endtrans %}";
+        var txtMessageNoFilesError= "{% trans %}rp.generic.upload.nofile{% endtrans %}";
+        var classBtn = "{% if form.vars.attr.classBtn is defined %} {{form.vars.attr.classBtn}} {% else %} col-lg-offset-1 col-lg-5 {% endif %}";
+        var classUpload = "{% if form.vars.attr.classUpload is defined %} {{form.vars.attr.classUpload}} {% else %} col-lg-12 {% endif %}";
+    </script>
+    {% stylesheets
+    '@RedpillBundle/Resources/public/css/file_upload.css'
+    '@RedpillBundle/Resources/public/components/jcrop/css/jquery.Jcrop.min.css'
+    '@RedpillBundle/Resources/public/components/jquery.gritter/css/jquery.gritter.css'
+    '@RedpillBundle/Resources/public/css/fineuploader.css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock rp_file_upload_stylesheet %}
+{% block rp_bnt_choice_stylesheet %}
+    {% stylesheets
+    '@bootstrap_select_css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock rp_bnt_choice_stylesheet %}

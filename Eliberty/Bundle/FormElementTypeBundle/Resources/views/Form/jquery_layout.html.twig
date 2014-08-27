@@ -1,0 +1,310 @@
+{% block rp_boolean_javascript %}
+    {% spaceless %}
+        {% set entityName = getEntityName(form.parent.vars.data) %}
+        {% set className = entityName ~ '_' ~ form.vars.name %}
+        <script type="text/javascript">
+            $(function () {
+                'use strict';
+                $('.{{className}}').click(function() {
+                    if (!$(this).parent().parent().hasClass('disabled')) {
+                        if ($(this).parent().parent().hasClass('true')) {
+                            $(this).parent().parent().addClass('false').removeClass('true');
+                            $(this).children().attr('value','false');
+                        } else {
+                            $(this).children().attr('value','true');
+                            $(this).parent().parent().addClass('true').removeClass('false');
+                        }
+                    }
+                });
+            });
+        </script>
+    {% endspaceless %}
+{% endblock rp_boolean_javascript %}
+
+{% block rp_multiselect_javascript %}
+    {% spaceless %}
+        {% javascripts
+        '@RedpillBundle/Resources/public/bootstrap-multiselect-master/js/bootstrap-multiselect.js'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        <script type="text/javascript">
+
+            $(function () {
+                $('#{{ id }}').multiselect({
+                    enableFiltering: true,
+                    filterBehavior: 'both',
+                    buttonWidth: '100%',
+                    buttonContainer: '<div class="btn-group" style="width:inherit;" />',
+                    enableCaseInsensitiveFiltering: true,
+                    filterPlaceholder: '{{'rp.console.contact.search' | trans }}'
+                });
+            });
+
+            {#$('#{{ id | raw }}-select').on('click', function() {#}
+                {#var $el = $('.multiselect_{{ id }}');#}
+                {#$('option', $el).each(function(element) {#}
+                    {#$el.multiselect('select', $(this).val());#}
+                {#});#}
+            {#});#}
+
+            {#$('#{{ id | raw }}-deselect').on('click', function() {#}
+                {#var $el = $('.multiselect_{{ id }}');#}
+                {#$('option', $el).each(function(element) {#}
+                    {#$el.multiselect('deselect', $(this).val());#}
+                {#});#}
+            {#});#}
+        </script>
+
+    {% endspaceless %}
+{% endblock rp_multiselect_javascript %}
+
+{% block rp_markdown_editor_javascript %}
+    {% spaceless %}
+        {% javascripts '@RedpillBundle/Resources/public/bootstrap-markdown/js/bootstrap-markdown.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        <script type="text/javascript">
+            $(function () {
+                $('.markdown_editor_{{ id }}').markdown();
+                $('.md-header').addClass('transparent');
+            });
+        </script>
+    {% endspaceless %}
+{% endblock rp_markdown_editor_javascript %}
+
+{% block rp_datepicker_javascript %}
+    {% spaceless %}
+    {% if app.request.locale |lower  == 'en' %}
+        {% javascripts '@bootstrap_datepicker_js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% else %}
+        {% javascripts
+            '@RedpillBundle/Resources/public/components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endif %}
+    <script type="text/javascript">
+    $(function () {
+         $('.rp_datepicker').datepicker(
+            {
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                startDate: moment().toDate(),
+                weekStart: 1,
+                language: '{{ app.request.locale |lower }}',
+                onRender: function(date) {
+                    return date.valueOf() < tomorrow.valueOf() ? 'disabled' : '';
+                }
+            }
+        );
+        $('.glyphicon-calendar').on('click', function(e){$(this).closest('.input-group').find('input').datepicker('show');});
+    });
+    </script>
+    {% endspaceless %}
+{% endblock rp_datepicker_javascript %}
+
+
+
+{% block rp_tags_javascript %}
+ {% spaceless %}
+    {% javascripts 
+        '@RedpillBundle/Resources/public/selectize.js-master/dist/js/standalone/selectize.js' 
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+          $(function () {
+           if (redpillToken == null) {getToken('redpill');}
+            $('.input-tags').selectize({
+                plugins:['remove_button'],
+                //maxItems: null,
+                //maxOptions: null,
+                preload: true,
+                valueField: 'name',
+                labelField: 'name',
+                searchField: 'name',
+                hideSelected: true,
+                render: {
+                        option: function(item, escape) {
+                            return '<div><span class="name" value="'+ escape(item.id) +'">' + escape(item.name) + '</span></div>';
+                        }
+                    },
+                create: true,
+                load: function(query, callback) {
+                        {% set url = path('api_v1_get_tags' , {'_format' : 'json'}) | raw %};
+                        $.ajax({
+                            url: '{{url}}',
+                            dataType: 'json',
+                            data : {'search' : query },
+                            headers: {"Authorization": "Bearer " + redpillToken},
+                            success: function(data) {
+                                callback(data.data);
+                            }
+                        });                         
+                    },
+                onItemAdd: function(value, $item) { 
+                    var newVal = $('#input-tags').val()+','+value;
+                    $('#input-tags').attr('value',newVal);
+                },
+                onItemRemove: function(value) { 
+                    var newVal = $('#input-tags').val().replace(','+value,'');
+                    $('#input-tags').attr('value',newVal);
+                }
+            });
+        });
+    </script>
+{% endspaceless %}
+{% endblock rp_tags_javascript %}
+
+{% block rp_rest_choice_javascript %}
+<script type="text/javascript">
+    {% if attr.start is defined and attr.start != "" %}
+        $(function () {
+            $('#{{id}}').chosen()
+        });
+        function {{attr.start}} {
+            var valueParent = $('#' + id).val();
+            var params = "{{attr.params}}";
+            var newParams = params.replace('(id)', valueParent);
+                {% if attr.parentId is defined and attr.parentId != "" %}
+                    var valueFirstParent = $('#{{attr.parentId}}').val();
+                    newParams = newParams.replace('(parentId)', valueFirstParent)
+                {% endif %}
+    {% else %}
+            $(function () {
+                        $('#{{id}}').chosen()
+                        var newParams = null;
+    {% endif %}
+                        var newRoute = '{{attr.route}}';
+                        var spinner = $('.container_spinner').html();
+                        $.when($.ajax({
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    data: {'params': newParams},
+                                    url: newRoute,
+                                    {% if attr.ajaxstart is defined and attr.ajaxstart != "" %}
+                                    beforeSend: function () {
+                                        $(".{{attr.ajaxstart}}").empty().html($('.container_spinner').html());
+                                    },
+                                    complete: function () {
+                                        $(".{{attr.ajaxstart}}").empty();
+                                    },
+                                    {% endif %}
+                                })).then(function (data) {
+                            var obj = $('#{{id}}');
+                            obj.find("option").remove();
+                           // obj.append(new Option('-----------------------------------------', -1));
+                            $.each({{attr.dataResponse}}, function (i, item) {
+                                var option = new Option({{attr.dataLabel}}, item.id);
+                                $(option).attr('data', encodeURIComponent(JSON.stringify(item)));
+                                obj.append(option);
+                                //return false;
+                            });
+                            {% if attr.change is defined and attr.change != null %}
+                                obj.val('').trigger("chosen:updated");
+                                obj.chosen().on("change", function (e) {
+                                    {{attr.change}}('{{id}}');
+                                });
+                            {% endif %}
+
+                            $('ul.dropdown-menu.inner').css('position', 'relative');
+                            $('ul.dropdown-menu.inner').find('li').find('i').remove();
+
+                        }, function (err) {
+                            onAjaxApiError(err);
+                        });
+                    }
+    {% if attr.start is not defined %} ); {% endif %}
+</script>
+{% endblock rp_rest_choice_javascript %}
+
+{% block rp_file_upload_javascript %}
+ {% spaceless %}
+     {% if form.vars.attr.disableJsFile is not defined %}
+        {% javascripts
+            '@MopaBootstrapBundle/Resources/public/bootstrap/js/modal.js'
+            '@RedpillBundle/Resources/public/components/jquery-bgiframe/jquery.bgiframe.js'
+            '@RedpillBundle/Resources/public/js/jquery.fineuploader-3.0.min.js'
+            '@RedpillBundle/Resources/public/components/jcrop/js/jquery.Jcrop.min.js'
+            '@RedpillBundle/Resources/public/components/jquery.gritter/js/jquery.gritter.min.js'
+            '@RedpillBundle/Resources/public/js/libs/upload/uploadmanager.js'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endif %}
+    <script type="text/javascript">
+        $(function () {
+            'use strict';
+
+            var uploadManager_{{form.vars.id | raw}} = new UploadManager('{{form.vars.id | raw}}');
+
+            uploadManager_{{form.vars.id | raw}}.initGritter();
+            uploadManager_{{form.vars.id | raw}}.initJcrop();
+            uploadManager_{{form.vars.id | raw}}.initActions();
+            uploadManager_{{form.vars.id | raw}}.checkFinalPic();
+        });
+
+    </script>
+ {% endspaceless %}
+{% endblock rp_file_upload_javascript %}
+{% block rp_chosen_javascript %}
+ {% spaceless %}
+     <script type="text/javascript">
+         $(function () {
+             'use strict';
+            $('#{{form.vars.id}}').chosen({% if attr.max_selected_options is defined %} {max_selected_options: {{attr.max_selected_options}} } {% endif %});
+        });
+    </script>
+  {% endspaceless %}
+{% endblock rp_chosen_javascript %}
+{% block rp_chosen_entity_javascript %}
+    {% spaceless %}
+        <script type="text/javascript">
+            $(function () {
+                'use strict';
+                $('#{{form.vars.id}}').chosen({% if attr.max_selected_options is defined %} {max_selected_options: {{attr.max_selected_options}} } {% endif %});
+            });
+        </script>
+    {% endspaceless %}
+{% endblock rp_chosen_entity_javascript %}
+{% block rp_bnt_choice_javascript %}
+    {% spaceless %}
+        {% javascripts
+        '@bootstrap_select_js'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        <script type="text/javascript">
+
+            $(function () {
+                $('.rp_bnt_choice_{{ id }}').selectpicker();
+                $('.rp_bnt_choice_{{ id }}').css('width','inherit');
+                {% if attr.setStyle is defined %}
+                    setStyleSelect();
+                    $('.rp_bnt_choice_{{ id }}').on('change', function(e) {
+                        setStyleSelect();
+                    });
+                {% endif %}
+            });
+            {% if attr.setStyle is defined %}
+            function setStyleSelect(){
+                var selectObj = $('.rp_bnt_choice_{{ id }}');
+                var style = 'btn-success';
+                if(jQuery.inArray(selectObj.val(), '{{ attr.danger }}'.split(',')) !== -1) {
+                    style = 'btn-danger';
+                } else if (jQuery.inArray(selectObj.val(), '{{ attr.info }}'.split(',')) !== -1) {
+                    style = 'btn-info';
+                } else if (jQuery.inArray(selectObj.val(), '{{ attr.warning }}'.split(',')) !== -1) {
+                    style = 'btn-warning';
+                }
+                selectObj.selectpicker('setStyle', $('.rp_bnt_choice_{{ id }}').attr('removeClass'), 'remove')
+                selectObj.selectpicker('setStyle', style);
+                selectObj.attr('removeClass', style);
+            }
+            {% endif %}
+        </script>
+
+    {% endspaceless %}
+{% endblock rp_bnt_choice_javascript %}
