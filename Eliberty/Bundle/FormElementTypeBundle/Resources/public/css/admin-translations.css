@@ -1,0 +1,26 @@
+.maincontent{
+    background: none;
+    background-color: #FFFFFF;
+}
+
+.tradholder{
+    margin: 20px;
+    border-bottom: 1px inset;
+}
+
+.tradholder .well{
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+textarea.local_string{
+    width: 98%;
+    height: 50px;
+    color: #000000;
+
+}
+
+.saved .alert{
+    margin: 27px 0 0 0;
+    text-align: center;
+}

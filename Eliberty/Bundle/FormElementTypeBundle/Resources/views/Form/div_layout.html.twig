@@ -1,4 +1,4 @@
-{% block rp_boolean_widget %}
+{% block eliberty_boolean_widget %}
     {% spaceless %}
     {% set entityName = getEntityName(form.parent.vars.data) %}
     {% set className = entityName ~ '_' ~ form.vars.name %}
@@ -21,26 +21,39 @@
         </div>
     </div>
     {% endspaceless %}
-{% endblock rp_boolean_widget %}
+{% endblock eliberty_boolean_widget %}
 
-{% block rp_datepicker_label %}
+{% block eliberty_datetime_picker_widget %}
+    {% spaceless %}
+        <div class="">
+            <div id="datetimepicker-{{id}}" class="input-group date">
+                <input type="text" {{ block('widget_attributes') }} data-date-format="DD-MM-YYYY hh:mm:ss" {% if value is not empty %}value="{{ value|date('d-m-Y H:i:s') }}" {% endif %} class="form-control">
+                  <span class="input-group-addon add-on">
+                    <span class="glyphicon-calendar glyphicon"></span>
+                  </span>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_datetime_picker_widget %}
+
+{% block eliberty_datepicker_label %}
     {% spaceless %}
         <label  class=" control-label col-lg-3 optional">
             {{ label }}
         </label>
     {% endspaceless %}
-{% endblock rp_datepicker_label %}
+{% endblock eliberty_datepicker_label %}
 
-{% block rp_datepicker_widget %}
+{% block eliberty_datepicker_widget %}
     {% spaceless %}
     <div class="input-group {% if attr['classSize'] is defined %} {{attr['classSize']}} {% endif %}" >
-        <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="form-control rp_datepicker" >
+        <input type="text"  value="{{ value }}" {{ block('widget_attributes') }} class="form-control eliberty_datepicker" >
         <span class="input-group-addon calendar"><span class="glyphicon glyphicon-calendar"></span></span>
     </div>
     {% endspaceless %}
-{% endblock rp_datepicker_widget %}
+{% endblock eliberty_datepicker_widget %}
 
-{% block rp_multiselect_widget %}
+{% block eliberty_multiselect_widget %}
     {% spaceless %}
     <div class=" col-lg-{% if form.vars.attr.position is defined %}12{%else%}9{% endif %}">
         <select  {{ block('widget_attributes') }}  class='form-control multiselect_{{ id }}' multiple="multiple" >
@@ -61,94 +74,9 @@
     {#<a id="{{ [id,'select']|join('-')}}" style='margin-left:5px;' class="btn btn-primary">Select All</a>#}
     {#<a id="{{ [id,'deselect']|join('-')}}" class="btn btn-primary">Deselect All</a>#}
     {% endspaceless %}
-{% endblock rp_multiselect_widget %}
+{% endblock eliberty_multiselect_widget %}
 
-{% block rp_tags_label %}
-    {% spaceless %}
-            {{ label }}
-    {% endspaceless %}
-{% endblock rp_tags_label %}
-
-{% block rp_tags_widget %}
-    {% spaceless %}
-        <input type="text" {{ block('widget_attributes') }}   class="demo-default input-tags" value="{% for key,choice in choices %}{{choice.label}}{% if (choices | last)  != choice %},{% endif %}{% endfor %}" />
-    {% endspaceless %}
-{% endblock rp_tags_widget %}
-
-{% block rp_file_upload_widget %}
-    {% spaceless %}
-        {% image '@RedpillBundle/Resources/public/images/empty.png' %}
-            {% set noImg = asset_url %}
-        {% endimage %}
-        <input type="hidden" {{ block('widget_attributes') }} />
-        <input type="hidden" name="h" id="h-{{ form.vars.id }}" />
-        <input type="hidden" name="w" id="w-{{ form.vars.id }}" />
-        <input type="hidden" name="x" id="x-{{ form.vars.id }}" />
-        <input type="hidden" name="y" id="y-{{ form.vars.id }}" />
-
-        <div id="secndCTBlock_{{ form.vars.id }}" class="upload_file secndCTBlock" style="text-align:center">
-            <div id="thumbnail_{{ form.vars.id }}" class="thumbnail  {% if form.vars.attr.classImg is defined %} {{ form.vars.attr.classImg }} {% endif %}"
-                 {% if form.vars.value is empty %} style="display:none;" {% endif %}>
-                <img id="final-pic-{{ form.vars.id }}"  alt="{% trans %}rp.generic.upload.photo{% endtrans %}, {% trans %}rp.generic.upload.maxsize{% endtrans %}" class="uploadThumbImg" src="{% if form.vars.value is not empty %} {{ form.vars.value }} {% endif %}">
-            </div>
-            <div class="row">
-                <div id="imguploader_{{ form.vars.id }}" class="imguploader
-                {% if form.vars.attr.withCropper is defined and form.vars.attr.withCropper == 'true' %} withCropper {% endif %}
-                {% if form.vars.attr.classDivBtn is defined %} {{ form.vars.attr.classDivBtn }} {% endif %}
-                " role="gif|jpeg|jpg|png" rel="{{ form.vars.id }}"></div>
-                <div class="uploadmessages"></div>
-            </div>
-        </div>
-        <!-- modal-gallery is the modal dialog used for the image gallery -->
-        <div id="modal-pop-{{ form.vars.id }}"  class="modal fade" title="{% trans %}rp.generic.upload.modalcrop.title{% endtrans %}" tabindex="100000000" role="dialog" aria-labelledby="myModalPopUpLabel" aria-hidden="true" >
-            <div id="modal-dialog-{{ form.vars.id }}" class="modal-dialog {% if form.vars.attr.modalFile is defined %} {{ form.vars.attr.modalFile }} {% endif %}">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">{% trans %}rp.generic.upload.modalcrop.info1{% endtrans %}<br />{% trans %}rp.generic.upload.modalcrop.info2{% endtrans %}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row centralpanel">
-                            <div class="col-xs-8">
-                                <div class="picholder">
-                                    <img id="cropbox_{{ form.vars.id }}" src="{{ noImg }}" alt="blank" />
-                                </div>
-                            </div>
-
-                            <div class="col-xs-4">
-                                <div id="keycard">
-                                    <div id="previewholder">
-                                        <img id="preview_{{ form.vars.id }}" src="{{ noImg }}">
-                                    </div>
-                                </div>
-                                <div class="tools">
-                                    <a href="#" id="rotator_{{ form.vars.id }}" class="btn btn-lg btn-warnning rotator">{% trans %}rp.generic.upload.modalcrop.rotation{% endtrans %} <span class="glyphicon glyphicon-retweet"></span></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row hidden">
-                            <div class="alert alert-info small">
-                                <p></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div>
-                            <div class="col-xs-6" style="text-align:right; line-height: 30px;">
-                                {% trans %}rp.generic.upload.modalcrop.ok{% endtrans %}
-                            </div>
-                            <div class="col-xs-6" style="text-align:left">
-                                <button id="picsaver_{{ form.vars.id }}" class="btn btn-primary btn-large picsaver">{% trans %}rp.generic.upload.modalcrop.save{% endtrans %} <span class="glyphicon glyphicon-share"></span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endspaceless %}
-{% endblock rp_file_upload_widget %}
-
-{% block rp_rest_choice_widget %}
+{% block eliberty_rest_choice_widget %}
     {% spaceless %}
         <div class="col-lg-9">
             <select  {{ block('widget_attributes') }} data-placeholder="Please Select..." data-width="col-lg-9" class='chosen-select' data-size="5" data-live-search="true" >
@@ -160,15 +88,15 @@
             </select>
         </div>
     {% endspaceless %}
-{% endblock rp_rest_choice_widget %}
+{% endblock eliberty_rest_choice_widget %}
 
-{% block rp_markdown_editor_widget %}
+{% block eliberty_markdown_editor_widget %}
     {% spaceless %}
         <textarea {{ block('widget_attributes') }} class="form-control markdown_editor_{{ id }}" style="margin-top:10px;" >{{ value }} </textarea>
     {% endspaceless %}
-{% endblock rp_markdown_editor_widget %}
+{% endblock eliberty_markdown_editor_widget %}
 
-{% block rp_expanded_widget %}
+{% block eliberty_expanded_widget %}
     {% spaceless %}
         <div {{ block('widget_container_attributes') }} class="btn-group" data-toggle="buttons">
             {% for child in form %}
@@ -178,11 +106,12 @@
             {% endfor %}
         </div>
     {% endspaceless %}
-{% endblock rp_expanded_widget %}
-{% block rp_bnt_choice_widget %}
+{% endblock eliberty_expanded_widget %}
+
+{% block eliberty_bnt_choice_widget %}
     {% spaceless %}
         <div class=" col-lg-{% if form.vars.attr.position is defined %}12{%else%}9{% endif %}">
-        <select  {{ block('widget_attributes') }}   class='selectpicker rp_bnt_choice_{{ id }}' data-live-search="true" data-style="btn-info" data-size="10" >
+        <select  {{ block('widget_attributes') }}   class='selectpicker eliberty_bnt_choice_{{ id }}' data-live-search="true" data-style="btn-info" data-size="10" >
             {% for group_label, choice in choices %}
                 {% if choice is iterable %}
                     <optgroup label="{{ group_label|trans({}, translation_domain) }}">
@@ -198,4 +127,11 @@
         </select>
         </div>
     {% endspaceless %}
-{% endblock rp_bnt_choice_widget %}
+{% endblock eliberty_bnt_choice_widget %}
+{% block eliberty_json_widget %}
+    {% spaceless %}
+        <div id="jsoneditor-{{id}}" class="jsoneditor" style="height:{% if form.vars.attr.height is defined %} {{form.vars.attr.height}} {% else %} 150px {% endif %};">
+            <input type="hidden" value="{{value | e('html_attr') }}" {{ block('widget_attributes') }} />
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_json_widget %}

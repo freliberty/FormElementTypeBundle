@@ -3,7 +3,7 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Eliberty\RedpillBundle\Form\DataTransformer\EntityToIdTransformer;
+use Eliberty\Bundle\FormElementTypeBundle\Form\DataTransformer\EntityToIdTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\Common\Persistence\ObjectManager;

@@ -1,4 +1,4 @@
-{% block rp_boolean_javascript %}
+{% block eliberty_boolean_javascript %}
     {% spaceless %}
         {% set entityName = getEntityName(form.parent.vars.data) %}
         {% set className = entityName ~ '_' ~ form.vars.name %}
@@ -19,15 +19,19 @@
             });
         </script>
     {% endspaceless %}
-{% endblock rp_boolean_javascript %}
+{% endblock eliberty_boolean_javascript %}
 
-{% block rp_multiselect_javascript %}
+{% block eliberty_multiselect_javascript %}
     {% spaceless %}
-        {% javascripts
-        '@RedpillBundle/Resources/public/bootstrap-multiselect-master/js/bootstrap-multiselect.js'
-        %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
+            {% javascripts  '@RedpillBundle/Resources/public/bootstrap-multiselect-master/js/bootstrap-multiselect.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% else %}
+            {% javascripts  '@ElibertyFormElementTypeBundle/Resources/public/bootstrap-multiselect-master/js/bootstrap-multiselect.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endif %}
         <script type="text/javascript">
 
             $(function () {
@@ -40,30 +44,21 @@
                     filterPlaceholder: '{{'rp.console.contact.search' | trans }}'
                 });
             });
-
-            {#$('#{{ id | raw }}-select').on('click', function() {#}
-                {#var $el = $('.multiselect_{{ id }}');#}
-                {#$('option', $el).each(function(element) {#}
-                    {#$el.multiselect('select', $(this).val());#}
-                {#});#}
-            {#});#}
-
-            {#$('#{{ id | raw }}-deselect').on('click', function() {#}
-                {#var $el = $('.multiselect_{{ id }}');#}
-                {#$('option', $el).each(function(element) {#}
-                    {#$el.multiselect('deselect', $(this).val());#}
-                {#});#}
-            {#});#}
         </script>
-
     {% endspaceless %}
-{% endblock rp_multiselect_javascript %}
+{% endblock eliberty_multiselect_javascript %}
 
-{% block rp_markdown_editor_javascript %}
+{% block eliberty_markdown_editor_javascript %}
     {% spaceless %}
-        {% javascripts '@RedpillBundle/Resources/public/bootstrap-markdown/js/bootstrap-markdown.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
+            {% javascripts  '@RedpillBundle/Resources/public/bootstrap-markdown/js/bootstrap-markdown.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% else %}
+            {% javascripts  '@ElibertyFormElementTypeBundle/Resources/public/bootstrap-markdown/js/bootstrap-markdown.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endif %}
         <script type="text/javascript">
             $(function () {
                 $('.markdown_editor_{{ id }}').markdown();
@@ -71,23 +66,54 @@
             });
         </script>
     {% endspaceless %}
-{% endblock rp_markdown_editor_javascript %}
+{% endblock eliberty_markdown_editor_javascript %}
 
-{% block rp_datepicker_javascript %}
+{% block eliberty_datetime_picker_javascript %}
     {% spaceless %}
-    {% if app.request.locale |lower  == 'en' %}
-        {% javascripts '@bootstrap_datepicker_js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/boostrap-datetimepicker.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
-    {% else %}
-        {% javascripts
+        <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker-{{id}}').datetimepicker({
+                language: 'fr',
+                pick12HourFormat: false
+            });
+            $('#datetimepicker-{{id}}').data("DateTimePicker").setDate("10/23/2013")
+        });
+        </script>
+    {% endspaceless %}
+{% endblock %}
+
+{% block eliberty_datepicker_javascript %}
+    {% spaceless %}
+    {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
+        {% if app.request.locale |lower  == 'en' %}
+            {% javascripts '@RedpillBundle/Resources/public/components/bootstrap-datepicker/js/bootstrap-datepicker.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% else %}
+            {% javascripts
             '@RedpillBundle/Resources/public/components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' %}
                 <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+            {% endjavascripts %}
+        {% endif %}
+    {% else %}
+        {% if app.request.locale |lower  == 'en' %}
+            {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/components/bootstrap-datepicker/js/bootstrap-datepicker.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% else %}
+            {% javascripts
+            '@ElibertyFormElementTypeBundle/Resources/public/components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endif %}
     {% endif %}
+
     <script type="text/javascript">
     $(function () {
-         $('.rp_datepicker').datepicker(
+         $('.eliberty_datepicker').datepicker(
             {
                 format: 'dd/mm/yyyy',
                 autoclose: true,
@@ -103,62 +129,35 @@
     });
     </script>
     {% endspaceless %}
-{% endblock rp_datepicker_javascript %}
+{% endblock eliberty_datepicker_javascript %}
 
-
-
-{% block rp_tags_javascript %}
- {% spaceless %}
-    {% javascripts 
-        '@RedpillBundle/Resources/public/selectize.js-master/dist/js/standalone/selectize.js' 
-    %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-    <script type="text/javascript">
-          $(function () {
-           if (redpillToken == null) {getToken('redpill');}
-            $('.input-tags').selectize({
-                plugins:['remove_button'],
-                //maxItems: null,
-                //maxOptions: null,
-                preload: true,
-                valueField: 'name',
-                labelField: 'name',
-                searchField: 'name',
-                hideSelected: true,
-                render: {
-                        option: function(item, escape) {
-                            return '<div><span class="name" value="'+ escape(item.id) +'">' + escape(item.name) + '</span></div>';
-                        }
-                    },
-                create: true,
-                load: function(query, callback) {
-                        {% set url = path('api_v1_get_tags' , {'_format' : 'json'}) | raw %};
-                        $.ajax({
-                            url: '{{url}}',
-                            dataType: 'json',
-                            data : {'search' : query },
-                            headers: {"Authorization": "Bearer " + redpillToken},
-                            success: function(data) {
-                                callback(data.data);
-                            }
-                        });                         
-                    },
-                onItemAdd: function(value, $item) { 
-                    var newVal = $('#input-tags').val()+','+value;
-                    $('#input-tags').attr('value',newVal);
-                },
-                onItemRemove: function(value) { 
-                    var newVal = $('#input-tags').val().replace(','+value,'');
-                    $('#input-tags').attr('value',newVal);
-                }
+{% block eliberty_integer_javascript %}
+    {% spaceless %}
+        {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/jquery.numeric.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        <script type="text/javascript">
+            $('#{{id}}').numeric(false, function () {
+                alert("Integers only");
+                this.value = "";
+                this.focus();
             });
-        });
-    </script>
-{% endspaceless %}
-{% endblock rp_tags_javascript %}
+        </script>
+    {% endspaceless %}
+{% endblock eliberty_integer_javascript %}
 
-{% block rp_rest_choice_javascript %}
+{% block eliberty_decimal_javascript %}
+    {% spaceless %}
+        {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/jquery.numeric.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        <script type="text/javascript">
+            $('#{{id}}').numeric(".");
+        </script>
+    {% endspaceless %}
+{% endblock eliberty_decimal_javascript %}
+
+{% block eliberty_rest_choice_javascript %}
 <script type="text/javascript">
     {% if attr.start is defined and attr.start != "" %}
         $(function () {
@@ -218,79 +217,63 @@
                     }
     {% if attr.start is not defined %} ); {% endif %}
 </script>
-{% endblock rp_rest_choice_javascript %}
+{% endblock eliberty_rest_choice_javascript %}
 
-{% block rp_file_upload_javascript %}
- {% spaceless %}
-     {% if form.vars.attr.disableJsFile is not defined %}
-        {% javascripts
-            '@MopaBootstrapBundle/Resources/public/bootstrap/js/modal.js'
-            '@RedpillBundle/Resources/public/components/jquery-bgiframe/jquery.bgiframe.js'
-            '@RedpillBundle/Resources/public/js/jquery.fineuploader-3.0.min.js'
-            '@RedpillBundle/Resources/public/components/jcrop/js/jquery.Jcrop.min.js'
-            '@RedpillBundle/Resources/public/components/jquery.gritter/js/jquery.gritter.min.js'
-            '@RedpillBundle/Resources/public/js/libs/upload/uploadmanager.js'
-        %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
-    {% endif %}
-    <script type="text/javascript">
-        $(function () {
-            'use strict';
-
-            var uploadManager_{{form.vars.id | raw}} = new UploadManager('{{form.vars.id | raw}}');
-
-            uploadManager_{{form.vars.id | raw}}.initGritter();
-            uploadManager_{{form.vars.id | raw}}.initJcrop();
-            uploadManager_{{form.vars.id | raw}}.initActions();
-            uploadManager_{{form.vars.id | raw}}.checkFinalPic();
-        });
-
-    </script>
- {% endspaceless %}
-{% endblock rp_file_upload_javascript %}
-{% block rp_chosen_javascript %}
+{% block eliberty_chosen_javascript %}
  {% spaceless %}
      <script type="text/javascript">
          $(function () {
              'use strict';
-            $('#{{form.vars.id}}').chosen({% if attr.max_selected_options is defined %} {max_selected_options: {{attr.max_selected_options}} } {% endif %});
+            $('#{{form.vars.id}}').chosen({
+                    {% if attr.max_selected_options is defined %} max_selected_options: {{attr.max_selected_options}},  {% endif %}
+                    {% if attr.allow_single_deselect is defined %} allow_single_deselect: true, {% endif %}
+                    {% if attr.placeholder_text_single is defined %} placeholder_text_single: {{attr.placeholder_text_single}}, {% endif %}
+             });
         });
     </script>
   {% endspaceless %}
-{% endblock rp_chosen_javascript %}
-{% block rp_chosen_entity_javascript %}
+{% endblock eliberty_chosen_javascript %}
+
+{% block eliberty_chosen_entity_javascript %}
     {% spaceless %}
         <script type="text/javascript">
             $(function () {
                 'use strict';
-                $('#{{form.vars.id}}').chosen({% if attr.max_selected_options is defined %} {max_selected_options: {{attr.max_selected_options}} } {% endif %});
+                $('#{{form.vars.id}}').chosen({
+                    {% if attr.max_selected_options is defined %} max_selected_options: {{attr.max_selected_options}},  {% endif %}
+                    {% if attr.allow_single_deselect is defined %} allow_single_deselect: true {% endif %}
+                });
             });
         </script>
     {% endspaceless %}
-{% endblock rp_chosen_entity_javascript %}
-{% block rp_bnt_choice_javascript %}
+{% endblock eliberty_chosen_entity_javascript %}
+
+{% block eliberty_bnt_choice_javascript %}
     {% spaceless %}
-        {% javascripts
-        '@bootstrap_select_js'
-        %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
+            {% javascripts  '@RedpillBundle/Resources/public/components/bootstrap-select/dist/js/bootstrap-select.min.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% else %}
+            {% javascripts  '@ElibertyFormElementTypeBundle/Resources/public/components/bootstrap-select/js/bootstrap-select.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endif %}
         <script type="text/javascript">
 
             $(function () {
-                $('.rp_bnt_choice_{{ id }}').selectpicker();
-                $('.rp_bnt_choice_{{ id }}').css('width','inherit');
+                $('.eliberty_bnt_choice_{{ id }}').selectpicker();
+                $('.eliberty_bnt_choice_{{ id }}').css('width','inherit');
                 {% if attr.setStyle is defined %}
                     setStyleSelect();
-                    $('.rp_bnt_choice_{{ id }}').on('change', function(e) {
+                    $('.eliberty_bnt_choice_{{ id }}').on('change', function(e) {
                         setStyleSelect();
                     });
                 {% endif %}
             });
             {% if attr.setStyle is defined %}
             function setStyleSelect(){
-                var selectObj = $('.rp_bnt_choice_{{ id }}');
+                var selectObj = $('.eliberty_bnt_choice_{{ id }}');
                 var style = 'btn-success';
                 if(jQuery.inArray(selectObj.val(), '{{ attr.danger }}'.split(',')) !== -1) {
                     style = 'btn-danger';
@@ -299,7 +282,7 @@
                 } else if (jQuery.inArray(selectObj.val(), '{{ attr.warning }}'.split(',')) !== -1) {
                     style = 'btn-warning';
                 }
-                selectObj.selectpicker('setStyle', $('.rp_bnt_choice_{{ id }}').attr('removeClass'), 'remove')
+                selectObj.selectpicker('setStyle', $('.eliberty_bnt_choice_{{ id }}').attr('removeClass'), 'remove')
                 selectObj.selectpicker('setStyle', style);
                 selectObj.attr('removeClass', style);
             }
@@ -307,4 +290,42 @@
         </script>
 
     {% endspaceless %}
-{% endblock rp_bnt_choice_javascript %}
+{% endblock eliberty_bnt_choice_javascript %}
+
+{% block eliberty_json_javascript %}
+    {% spaceless %}
+        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
+            {% javascripts  '@RedpillBundle/Resources/public/components/jsoneditor/jsoneditor.min.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% else %}
+            {% javascripts  '@ElibertyFormElementTypeBundle/Resources/public/components/jsoneditor/jsoneditor.min.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endif %}
+    <script type="text/javascript">
+        $(function () {
+            // create the editor
+
+            var options = {
+                "modes": ['code', 'form', 'text', 'tree', 'view'],
+                "indentation": 2,
+                "search": false,
+                "error": function () { alert("Le text n'est pas au format Json");},
+                "change": function () {
+                    var text = $("#jsoneditor-{{id}}").find('textarea').val();
+                    $('#{{id}}').attr('value',text.replace(/'/g, '"'));
+                }
+            };
+            var editor = new JSONEditor($("#jsoneditor-{{id}}")[0], options);
+
+            // set json
+            var json = JSON.parse('{{value}}');
+            editor.set(json);
+
+            // get json
+            var json = editor.get();
+        });
+    </script>
+    {% endspaceless %}
+{% endblock eliberty_json_javascript %}

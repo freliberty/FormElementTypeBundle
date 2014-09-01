@@ -4,7 +4,7 @@ namespace Eliberty\Bundle\FormElementTypeBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Eliberty\Bundle\FormElementTypeBundle\DependencyInjection\Compiler\AddFormRessourcePass;
+use Eliberty\Bundle\FormElementTypeBundle\DependencyInjection\Compiler\AddFormResourcePass;
 
 class ElibertyFormElementTypeBundle extends Bundle
 {
@@ -14,6 +14,6 @@ class ElibertyFormElementTypeBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new AddFormRessourcePass());
+        $container->addCompilerPass(new AddFormResourcePass());
     }
 }

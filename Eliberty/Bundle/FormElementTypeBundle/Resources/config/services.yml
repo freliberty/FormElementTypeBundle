@@ -42,7 +42,18 @@ services:
     eliberty.form.type.keycard.teamaxess:
             class: Eliberty\Bundle\FormElementTypeBundle\Form\KeycardTeamaxessType
             tags: [{ name: form.type, alias: eliberty_keycard_teamaxess }]
-
+    eliberty.form.type.datetime.picker:
+        class: Eliberty\Bundle\FormElementTypeBundle\Form\DateTimePickerType
+        tags: [{ name: form.type, alias: eliberty_datetime_picker }]
+    eliberty.form.type.integer:
+        class: Eliberty\Bundle\FormElementTypeBundle\Form\IntegerType
+        tags: [{ name: form.type, alias: eliberty_integer }]
+    eliberty.form.type.decimal:
+        class: Eliberty\Bundle\FormElementTypeBundle\Form\DecimalType
+        tags: [{ name: form.type, alias: eliberty_decimal }]
+    eliberty.form.type.json:
+        class: Eliberty\Bundle\FormElementTypeBundle\Form\JsonType
+        tags: [{ name: form.type, alias: eliberty_json }]
     ##Defined form polymorphe collections
     eliberty.form.polycollection_type:
         class: Eliberty\Bundle\FormElementTypeBundle\Form\PolyCollectionType
