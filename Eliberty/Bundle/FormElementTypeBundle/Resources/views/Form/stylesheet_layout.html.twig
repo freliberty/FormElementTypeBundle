@@ -1,63 +1,32 @@
 {% block eliberty_boolean_stylesheet %}
 {% spaceless %}
-    {{formelementtypemode}}
-    {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-        {% stylesheets '@RedpillBundle/Resources/public/css/bool_form.css' %}
-            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-        {% endstylesheets %}
-    {% else %}
         {% stylesheets '@ElibertyFormElementTypeBundle/Resources/public/css/bool_form.css' %}
             <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
         {% endstylesheets %}
-    {% endif %}
 {% endspaceless %}
 {% endblock eliberty_boolean_stylesheet %}
 
 {% block eliberty_markdown_editor_stylesheet %}
     {% spaceless %}
-        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-            {% stylesheets '@RedpillBundle/Resources/public/bootstrap-markdown/css/bootstrap-markdown.min.css' %}
-                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-            {% endstylesheets %}
-        {% else %}
-            {% stylesheets '@ElibertyFormElementTypeBundle/Resources/public/bootstrap-markdown/css/bootstrap-markdown.min.css' %}
-                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-            {% endstylesheets %}
-        {% endif %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':marckdown.html.twig' %}
     {% endspaceless %}
 {% endblock eliberty_markdown_editor_stylesheet %}
 
 {% block eliberty_datepicker_stylesheet %}
     {% spaceless %}
-        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-            {% stylesheets '@RedpillBundle/Resources/public/components/bootstrap-datepicker/css/datepicker.css' %}
-                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-            {% endstylesheets %}
-        {% else %}
-            {% stylesheets '@ElibertyFormElementTypeBundle/Resources/public/components/bootstrap-datepicker/css/datepicker.css' %}
-                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-            {% endstylesheets %}
-        {% endif %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':datepicker.html.twig' %}
     {% endspaceless %}
 {% endblock eliberty_datepicker_stylesheet %}
 
 {% block eliberty_datetime_picker_stylesheet %}
-    {% stylesheets '@ElibertyFormElementTypeBundle/Resources/public/js/bootstrap-datetimepicker.min.css' %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-    {% endstylesheets %}
+    {% spaceless %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':datetimepicker.html.twig' %}
+    {% endspaceless %}
 {% endblock eliberty_datetime_picker_stylesheet %}
 
 {% block eliberty_multiselect_stylesheet %}
     {% spaceless %}
-        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-            {% stylesheets '@RedpillBundle/Resources/public/bootstrap-multiselect-master/css/bootstrap-multiselect.css' %}
-                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-            {% endstylesheets %}
-        {% else %}
-            {% stylesheets '@ElibertyFormElementTypeBundle/Resources/public/bootstrap-multiselect-master/css/bootstrap-multiselect.css' %}
-                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-            {% endstylesheets %}
-        {% endif %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':multiselect.html.twig' %}
     {% endspaceless %}
 {% endblock eliberty_multiselect_stylesheet %}
 
@@ -65,27 +34,13 @@
 {% endblock eliberty_rest_choice_stylesheet %}
 
 {% block eliberty_bnt_choice_stylesheet %}
-    {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-        {% stylesheets '@RedpillBundle/Resources/public/components/bootstrap-select/less/bootstrap-select.less' %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-        {% endstylesheets %}
-    {% else %}
-        {% stylesheets '@ElibertyFormElementTypeBundle/Resources/public/components/bootstrap-select/less/bootstrap-select.less' %}
-            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-        {% endstylesheets %}
-    {% endif %}
+    {% spaceless %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':boostrap-select.html.twig' %}
+    {% endspaceless %}
 {% endblock eliberty_bnt_choice_stylesheet %}
 
 {% block eliberty_json_stylesheet %}
     {% spaceless %}
-        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-            {% stylesheets '@RedpillBundle/Resources/public/components/jsoneditor/jsoneditor.min.css' %}
-            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-            {% endstylesheets %}
-        {% else %}
-            {% stylesheets  '@ElibertyFormElementTypeBundle/Resources/public/components/jsoneditor/jsoneditor.min.css' %}
-            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-            {% endstylesheets %}
-        {% endif %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':jsoneditor.html.twig' %}
     {% endspaceless %}
 {% endblock eliberty_json_stylesheet %}

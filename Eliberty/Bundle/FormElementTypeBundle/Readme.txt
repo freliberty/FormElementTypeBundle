@@ -138,9 +138,13 @@ deux type d'implementations disponibles en definisant la clef dans le fichier co
 
     twig:
         globals:
-            formelementtypemode: redpill
+            formelementtypemode: Redpill
 
 2. implementation seul
+
+    twig:
+        globals:
+            formelementtypemode: FormElementType
 
    il faut generer les dependence js et css
 

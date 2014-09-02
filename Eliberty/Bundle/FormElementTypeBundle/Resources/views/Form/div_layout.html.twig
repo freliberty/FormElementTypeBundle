@@ -27,7 +27,7 @@
     {% spaceless %}
         <div class="">
             <div id="datetimepicker-{{id}}" class="input-group date">
-                <input type="text" {{ block('widget_attributes') }} data-date-format="DD-MM-YYYY hh:mm:ss" {% if value is not empty %}value="{{ value|date('d-m-Y H:i:s') }}" {% endif %} class="form-control">
+                <input type="text" {{ block('widget_attributes') }} data-date-format="YYYY-MM-DD hh:mm:ss" {% if value is not empty %}value="{{ value|date('Y-m-d H:i:s') }}" {% endif %} class="form-control">
                   <span class="input-group-addon add-on">
                     <span class="glyphicon-calendar glyphicon"></span>
                   </span>

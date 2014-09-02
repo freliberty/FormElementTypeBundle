@@ -23,15 +23,7 @@
 
 {% block eliberty_multiselect_javascript %}
     {% spaceless %}
-        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-            {% javascripts  '@RedpillBundle/Resources/public/bootstrap-multiselect-master/js/bootstrap-multiselect.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% else %}
-            {% javascripts  '@ElibertyFormElementTypeBundle/Resources/public/bootstrap-multiselect-master/js/bootstrap-multiselect.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endif %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':multiselect.html.twig' %}
         <script type="text/javascript">
 
             $(function () {
@@ -50,15 +42,7 @@
 
 {% block eliberty_markdown_editor_javascript %}
     {% spaceless %}
-        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-            {% javascripts  '@RedpillBundle/Resources/public/bootstrap-markdown/js/bootstrap-markdown.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% else %}
-            {% javascripts  '@ElibertyFormElementTypeBundle/Resources/public/bootstrap-markdown/js/bootstrap-markdown.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endif %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':markdown.html.twig' %}
         <script type="text/javascript">
             $(function () {
                 $('.markdown_editor_{{ id }}').markdown();
@@ -70,16 +54,14 @@
 
 {% block eliberty_datetime_picker_javascript %}
     {% spaceless %}
-        {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/boostrap-datetimepicker.js' %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':datetimepicker.html.twig' %}
         <script type="text/javascript">
         $(function () {
             $('#datetimepicker-{{id}}').datetimepicker({
                 language: 'fr',
                 pick12HourFormat: false
             });
-            $('#datetimepicker-{{id}}').data("DateTimePicker").setDate("10/23/2013")
+            //$('#datetimepicker-{{id}}').data("DateTimePicker").setDate("10/23/2013")
         });
         </script>
     {% endspaceless %}
@@ -87,30 +69,7 @@
 
 {% block eliberty_datepicker_javascript %}
     {% spaceless %}
-    {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-        {% if app.request.locale |lower  == 'en' %}
-            {% javascripts '@RedpillBundle/Resources/public/components/bootstrap-datepicker/js/bootstrap-datepicker.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% else %}
-            {% javascripts
-            '@RedpillBundle/Resources/public/components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endif %}
-    {% else %}
-        {% if app.request.locale |lower  == 'en' %}
-            {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/components/bootstrap-datepicker/js/bootstrap-datepicker.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% else %}
-            {% javascripts
-            '@ElibertyFormElementTypeBundle/Resources/public/components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endif %}
-    {% endif %}
-
+        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':datepicker.html.twig' %}
     <script type="text/javascript">
     $(function () {
          $('.eliberty_datepicker').datepicker(
@@ -149,7 +108,7 @@
 {% block eliberty_decimal_javascript %}
     {% spaceless %}
         {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/jquery.numeric.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
+            <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
         <script type="text/javascript">
             $('#{{id}}').numeric(".");
@@ -250,15 +209,7 @@
 
 {% block eliberty_bnt_choice_javascript %}
     {% spaceless %}
-        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-            {% javascripts  '@RedpillBundle/Resources/public/components/bootstrap-select/dist/js/bootstrap-select.min.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% else %}
-            {% javascripts  '@ElibertyFormElementTypeBundle/Resources/public/components/bootstrap-select/js/bootstrap-select.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endif %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':bootstrap-select.html.twig' %}
         <script type="text/javascript">
 
             $(function () {
@@ -294,15 +245,7 @@
 
 {% block eliberty_json_javascript %}
     {% spaceless %}
-        {% if formelementtypemode is defined and formelementtypemode == 'redpill' %}
-            {% javascripts  '@RedpillBundle/Resources/public/components/jsoneditor/jsoneditor.min.js' %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% else %}
-            {% javascripts  '@ElibertyFormElementTypeBundle/Resources/public/components/jsoneditor/jsoneditor.min.js' %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endif %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':jsoneditor.html.twig' %}
     <script type="text/javascript">
         $(function () {
             // create the editor

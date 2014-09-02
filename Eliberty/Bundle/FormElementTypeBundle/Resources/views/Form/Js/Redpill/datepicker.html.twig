@@ -1,0 +1,10 @@
+{% if app.request.locale |lower  == 'en' %}
+    {% javascripts '@RedpillBundle/Resources/public/components/bootstrap-datepicker/js/bootstrap-datepicker.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% else %}
+    {% javascripts
+    '@RedpillBundle/Resources/public/components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endif %}
