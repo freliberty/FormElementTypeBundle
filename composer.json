@@ -1,5 +1,5 @@
 {
-    "name": "eliberty/formelementype-bundle",
+    "name": "eliberty/formelementtype-bundle",
     "type": "symfony-bundle",
     "description": "Extra form types for your Symfony2 projects",
     "keywords": ["form", "extra form", "eliberty"],
