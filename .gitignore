@@ -1,0 +1,13 @@
+*.mine
+*.sublime-*
+.tags
+cache.properties
+/.phptidy-cache
+/.tags_sorted_by_file
+.DS_Store
+/src/Eliberty/FormElementTypeBundle/Resources/public/components/
+/sftp-config.json
+.idea/*
+/.rsync_cache/
+behat.phar
+behat.yml
