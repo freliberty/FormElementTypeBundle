@@ -1,4 +1,4 @@
-## Eliberty Configmanager
+## Eliberty FormElementType Bundle
 
 ### Installation:
 
