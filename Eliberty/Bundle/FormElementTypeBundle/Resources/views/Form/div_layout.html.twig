@@ -130,8 +130,6 @@
 {% endblock eliberty_bnt_choice_widget %}
 {% block eliberty_json_widget %}
     {% spaceless %}
-        <div id="jsoneditor-{{id}}" class="jsoneditor" style="height:{% if form.vars.attr.height is defined %} {{form.vars.attr.height}} {% else %} 150px {% endif %};">
-            <input type="hidden" value="{{value | e('html_attr') }}" {{ block('widget_attributes') }} />
-        </div>
+       <textarea id="{{id}}" name="{{full_name}}" class="form-control" >  {{ value | e('html_attr') }} </textarea>
     {% endspaceless %}
 {% endblock eliberty_json_widget %}
