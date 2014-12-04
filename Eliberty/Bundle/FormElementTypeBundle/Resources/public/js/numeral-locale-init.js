@@ -16,7 +16,7 @@
             return number === 1 ? 'er' : 'ème';
         },
         currency: {
-            symbol: '€'
+            symbol: 'CHF'
         }
     });
 })();
