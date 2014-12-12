@@ -186,7 +186,8 @@
             $('#{{form.vars.id}}').chosen({
                     {% if attr.max_selected_options is defined %} max_selected_options: {{attr.max_selected_options}},  {% endif %}
                     {% if attr.allow_single_deselect is defined %} allow_single_deselect: true, {% endif %}
-                    {% if attr.placeholder_text_single is defined %} placeholder_text_single: {{attr.placeholder_text_single}}, {% endif %}
+                    {% if attr.search_contains is defined %} search_contains: true, {% endif %}
+                    {% if attr.placeholder_text_single is defined %} placeholder_text_single: '{{attr.placeholder_text_single}}', {% endif %}
              });
         });
     </script>
@@ -200,7 +201,9 @@
                 'use strict';
                 $('#{{form.vars.id}}').chosen({
                     {% if attr.max_selected_options is defined %} max_selected_options: {{attr.max_selected_options}},  {% endif %}
-                    {% if attr.allow_single_deselect is defined %} allow_single_deselect: true {% endif %}
+                    {% if attr.allow_single_deselect is defined %} allow_single_deselect: true, {% endif %}
+                    {% if attr.search_contains is defined %} search_contains: true, {% endif %}
+                    {% if attr.placeholder_text_single is defined %} placeholder_text_single: '{{attr.placeholder_text_single}}', {% endif %}
                 });
             });
         </script>
@@ -243,32 +246,32 @@
     {% endspaceless %}
 {% endblock eliberty_bnt_choice_javascript %}
 
-{% block eliberty_json_javascript %}
-    {% spaceless %}
-        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':jsoneditor.html.twig' %}
-    <script type="text/javascript">
-        $(function () {
-            // create the editor
+{#{% block eliberty_json_javascript %}#}
+    {#{% spaceless %}#}
+        {#{% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':jsoneditor.html.twig' %}#}
+    {#<script type="text/javascript">#}
+        {#$(function () {#}
+            {#// create the editor#}
 
-            var options = {
-                "modes": ['code', 'form', 'text', 'tree', 'view'],
-                "indentation": 2,
-                "search": false,
-                "error": function () { alert("Le text n'est pas au format Json");},
-                "change": function () {
-                    var text = $("#jsoneditor-{{id}}").find('textarea').val();
-                    $('#{{id}}').attr('value',text.replace(/'/g, '"'));
-                }
-            };
-            var editor = new JSONEditor($("#jsoneditor-{{id}}")[0], options);
+            {#var options = {#}
+                {#"modes": ['code', 'form', 'text', 'tree', 'view'],#}
+                {#"indentation": 2,#}
+                {#"search": false,#}
+                {#"error": function () { alert("Le text n'est pas au format Json");},#}
+                {#"change": function () {#}
+                    {#var text = $("#jsoneditor-{{id}}").find('textarea').val();#}
+                    {#$('#{{id}}').attr('value',text.replace(/'/g, '"'));#}
+                {#}#}
+            {#};#}
+            {#var editor = new JSONEditor($("#jsoneditor-{{id}}")[0], options);#}
 
-            // set json
-            var json = JSON.parse('{{value}}');
-            editor.set(json);
+            {#// set json#}
+            {#var json = JSON.parse('{{value}}');#}
+            {#editor.set(json);#}
 
-            // get json
-            var json = editor.get();
-        });
-    </script>
-    {% endspaceless %}
-{% endblock eliberty_json_javascript %}
+            {#// get json#}
+            {#var json = editor.get();#}
+        {#});#}
+    {#</script>#}
+    {#{% endspaceless %}#}
+{#{% endblock eliberty_json_javascript %}#}
