@@ -1,7 +1,7 @@
 {% block eliberty_boolean_javascript %}
     {% spaceless %}
         {% set entityName = getEntityName(form.parent.vars.data) %}
-        {% set className = entityName ~ '_' ~ form.vars.name %}
+        {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id  %}
         <script type="text/javascript">
             $(function () {
                 'use strict';
@@ -23,7 +23,9 @@
 
 {% block eliberty_multiselect_javascript %}
     {% spaceless %}
-        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':multiselect.html.twig' %}
+        {% if attr.withoutJsFile is not defined %}
+            {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':multiselect.html.twig' %}
+        {% endif %}
         <script type="text/javascript">
 
             $(function () {
@@ -42,7 +44,9 @@
 
 {% block eliberty_markdown_editor_javascript %}
     {% spaceless %}
-        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':markdown.html.twig' %}
+        {% if attr.withoutJsFile is not defined %}
+            {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':markdown.html.twig' %}
+        {% endif %}
         <script type="text/javascript">
             $(function () {
                 $('.markdown_editor_{{ id }}').markdown();
@@ -54,14 +58,15 @@
 
 {% block eliberty_datetime_picker_javascript %}
     {% spaceless %}
-        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':datetimepicker.html.twig' %}
+        {% if attr.withoutJsFile is not defined %}
+            {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':datetimepicker.html.twig' %}
+        {% endif %}
         <script type="text/javascript">
         $(function () {
-            $('#datetimepicker-{{id}}').datetimepicker({
+            $('#{{id}}').datetimepicker({
                 language: 'fr',
                 pick12HourFormat: false
             });
-            //$('#datetimepicker-{{id}}').data("DateTimePicker").setDate("10/23/2013")
         });
         </script>
     {% endspaceless %}
@@ -69,7 +74,9 @@
 
 {% block eliberty_datepicker_javascript %}
     {% spaceless %}
-        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':datepicker.html.twig' %}
+        {% if attr.withoutJsFile is not defined %}
+            {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':datepicker.html.twig' %}
+        {% endif %}
     <script type="text/javascript">
     $(function () {
          $('.eliberty_datepicker').datepicker(
@@ -92,9 +99,11 @@
 
 {% block eliberty_integer_javascript %}
     {% spaceless %}
-        {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/jquery.numeric.js' %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        {% if attr.withoutJsFile is not defined %}
+            {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/jquery.numeric.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endif %}
         <script type="text/javascript">
             $('#{{id}}').numeric(false, function () {
                 alert("Integers only");
@@ -107,9 +116,11 @@
 
 {% block eliberty_decimal_javascript %}
     {% spaceless %}
-        {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/jquery.numeric.js' %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        {% if attr.withoutJsFile is not defined %}
+            {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/jquery.numeric.js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endif %}
         <script type="text/javascript">
             $('#{{id}}').numeric(".");
         </script>
@@ -246,32 +257,131 @@
     {% endspaceless %}
 {% endblock eliberty_bnt_choice_javascript %}
 
-{#{% block eliberty_json_javascript %}#}
-    {#{% spaceless %}#}
-        {#{% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':jsoneditor.html.twig' %}#}
-    {#<script type="text/javascript">#}
-        {#$(function () {#}
-            {#// create the editor#}
+{% block eliberty_json_javascript %}
+    {% spaceless %}
+        {% if attr.withEditor is defined and attr.withEditor == 'true' %}
+            {% if attr.withoutJsFile is not defined %}
+                {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':jsoneditor.html.twig' %}
+            {% endif %}
+            <script type="text/javascript">
+                var schema_{{ id }} = {% if attr.schema is defined %}{{attr.schema}}{% else %}'{}'{% endif %};
+                var jsonEditor_{{ id }};
+                var startval_{{ id }} = {% if value is null or value == '' %}''{% else %}{{ value }}{% endif %};
+                var editor_{{ id }} = document.getElementById("editor_holder_{{ id }}");
+                var validate_{{ id }} = document.getElementById('valid_indicator_{{ id }}') ;
+                $(function () {
 
-            {#var options = {#}
-                {#"modes": ['code', 'form', 'text', 'tree', 'view'],#}
-                {#"indentation": 2,#}
-                {#"search": false,#}
-                {#"error": function () { alert("Le text n'est pas au format Json");},#}
-                {#"change": function () {#}
-                    {#var text = $("#jsoneditor-{{id}}").find('textarea').val();#}
-                    {#$('#{{id}}').attr('value',text.replace(/'/g, '"'));#}
-                {#}#}
-            {#};#}
-            {#var editor = new JSONEditor($("#jsoneditor-{{id}}")[0], options);#}
 
-            {#// set json#}
-            {#var json = JSON.parse('{{value}}');#}
-            {#editor.set(json);#}
+                    if (schema_{{ id }} instanceof Object) {
+                        $('#schema_editor_{{id}}').val(jsl.format.formatJson(JSON.stringify(schema_{{ id }})));
+                    } else {
+                        $('#schema_editor_{{id}}').val(jsl.format.formatJson(schema_{{ id }}));
+                    }
+                    /**
+                     * reload schema
+                     * @param keep_value
+                     */
+                    var reload_{{ id }} = function(keep_value) {
+                        var startval = (jsonEditor_{{ id }} && keep_value)? jsonEditor_{{ id }}.getValue() : window.startval_{{ id }};
+                        window.startval_{{ id }} = undefined;
 
-            {#// get json#}
-            {#var json = editor.get();#}
-        {#});#}
-    {#</script>#}
-    {#{% endspaceless %}#}
-{#{% endblock eliberty_json_javascript %}#}
+                        if(startval instanceof Object && startval.hasOwnProperty('data')){
+                            startval = startval.data;
+                        }
+                        //destroy last editor if exist
+                        if(jsonEditor_{{ id }}) jsonEditor_{{ id }}.destroy();
+                        //create new editor
+                        jsonEditor_{{ id }} = new JSONEditor(editor_{{ id }},{
+                            schema: schema_{{ id }},
+                            theme: 'bootstrap2',
+                            startval: startval
+                        });
+
+                        //set the language
+                        JSONEditor.defaults.language = '{{ app.request.locale }}';
+                        {% raw %}
+                            JSONEditor.defaults.languages.fr = {
+                                error_minLength: "La valeur doit être au moins {{0}} caractères!"
+                            };
+                        {% endraw %}
+
+                        window.jsonEditor_{{ id }} = jsonEditor_{{ id }};
+
+                        // When the value of the editor changes, update the JSON output and validation message
+                        jsonEditor_{{ id }}.on('change',function() {
+                            var json = jsonEditor_{{ id }}.getValue();
+                            var validation_errors = jsonEditor_{{ id }}.validate();
+
+                            // Show validation errors if there are any
+                            if(validation_errors.length) {
+                                $('#btnJson{{ id }}').removeClass('btn-success').addClass('btn-danger')
+                                if($('#{{ id }}').parent().parent().hasClass('has-error') === false) {
+                                    var errorAsString = '';
+                                    $.each(validation_errors, function (index, obj) {
+                                        errorAsString += '<br>' + obj.message;
+                                    });
+                                    $('#valid_indicator_{{ id }}').html(errorAsString).css('color','red');
+                                }
+                            } else {
+                                $('#valid_indicator_{{ id }}').empty();
+                                $('#btnJson{{ id }}').removeClass('btn-danger').addClass('btn-success');
+                            }
+                        });
+                    };
+                    reload_{{ id }}();
+
+
+                    /**
+                     * update schema
+                     */
+                    $('#btnJsonSchemaUpdate{{id}}').on('click', function(event){
+                        event.preventDefault();
+                        try {
+                            schema_{{ id }} = JSON.parse($('#schema_editor_{{id}}').val());
+                        } catch(e) {
+                            alert('Invalid Schema: '+e.message);
+                            return;
+                        }
+                        reload_{{ id }}();
+                        $('#tab_{{ id }} a:first').tab('show')
+                    });
+
+                    /**
+                     * save the data and the schema into textarea
+                     */
+                    $("#btnJsonModalSave{{ id }}").on('click', function(event){
+                        var jsonData ;
+                        {% if attr.withSchema is defined %}
+                            jsonData = {
+                                "schema" : jsonEditor_{{ id }}.schema,
+                                "data" : jsonEditor_{{ id }}.getValue()
+                            };
+                        {% else %}
+                            jsonData = jsonEditor_{{ id }}.getValue();
+                        {% endif %}
+
+                        $('#{{ id }}').val(jsl.format.formatJson(JSON.stringify(jsonData)));
+                        $('#myModalJson{{id}}').modal('hide');
+                    });
+                });
+
+            </script>
+        {% endif  %}
+    {% endspaceless %}
+{% endblock eliberty_json_javascript %}
+
+{% block eliberty_colorpicker_javascript %}
+    {% spaceless %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':colorpicker.html.twig' %}
+        <script type="text/javascript">
+            $(function () {
+                'use strict';
+                $('#{{ id }}').pickAColor();
+                {% if attr.sizeClass is defined %}
+                    $('#{{ id }}').parent().parent().addClass('{{ attr.sizeClass }}');
+                {% endif %}
+                $('.content').css('overflow-y','auto');
+            });
+        </script>
+    {% endspaceless %}
+{% endblock eliberty_colorpicker_javascript %}

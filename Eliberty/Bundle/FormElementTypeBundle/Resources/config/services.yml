@@ -66,7 +66,9 @@ services:
          tags:
          - { name: form.type, alias: eliberty_entity_hidden }
 
-
+    eliberty.form.type.colorpicker:
+        class: Eliberty\Bundle\FormElementTypeBundle\Form\ColorPickerType
+        tags: [{ name: form.type, alias: eliberty_colorpicker }]
 
 
 

@@ -1,9 +1,9 @@
 {% block eliberty_boolean_widget %}
     {% spaceless %}
-    {% set entityName = getEntityName(form.parent.vars.data) %}
-    {% set className = entityName ~ '_' ~ form.vars.name %}
-    <div class="{% if form.vars.attr.inline is defined and form.vars.attr.inline == 'true' %}col-lg-6 padding-left-20{% endif %}">
-        <div class="bool-slider
+        {% set entityName = getEntityName(form.parent.vars.data) %}
+        {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id  %}
+        <div class="{% if form.vars.attr.inline is defined and form.vars.attr.inline == 'true' %}col-lg-6 padding-left-20{% endif %}">
+            <div class="bool-slider
         {% if value is not empty %}
             {% if value == 1 %}
                 true
@@ -13,20 +13,20 @@
                 {{ value }}
             {% endif %}
         {% else %} false {% endif %} {{className}}">
-            <div class="inset {{className}}">
-                <div class="control {{className}}">
-                    <input type="hidden"  {{ block('widget_attributes') }}  value="{% if value is not empty %}{% if value == 1 %}true{% elseif value == 0 and value != 'true' %}false{% else %}{{ value }}{% endif %}{% else %}false{% endif %}" class="form-control">
+                <div class="inset {{className}}">
+                    <div class="control {{className}}">
+                        <input type="hidden"  {{ block('widget_attributes') }}  value="{% if value is not empty %}{% if value == 1 %}true{% elseif value == 0 and value != 'true' %}false{% else %}{{ value }}{% endif %}{% else %}false{% endif %}" class="form-control">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endspaceless %}
 {% endblock eliberty_boolean_widget %}
 
 {% block eliberty_datetime_picker_widget %}
     {% spaceless %}
         <div class="">
-            <div id="datetimepicker-{{id}}" class="input-group date">
+            <div class="input-group date">
                 <input type="text" {{ block('widget_attributes') }} data-date-format="YYYY-MM-DD HH:mm:ss" {% if value is not empty %}value="{{ value|date('Y-m-d H:i:s') }}" {% endif %} class="form-control">
                   <span class="input-group-addon add-on">
                     <span class="glyphicon-calendar glyphicon"></span>
@@ -130,6 +130,66 @@
 {% endblock eliberty_bnt_choice_widget %}
 {% block eliberty_json_widget %}
     {% spaceless %}
-       <textarea id="{{id}}" name="{{full_name}}" class="form-control" >  {{ value | e('html_attr') }} </textarea>
+        {#{{ block('widget_attributes') }}#}
+       <textarea id="{{id}}" style="display:none;" name="{{full_name}}" class="form-control"  >{{ value | e('html_attr') }}</textarea>
+        {% if attr.withEditor is defined and attr.withEditor == 'true' and disabled != 'false' %}
+                <div class="row">
+                    <div class="col-lg-12" >
+                        <!-- Button trigger modal -->
+                        <button type="button" id="btnJson{{id}}" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModalJson{{id}}">
+                            Edition du Json
+                        </button>
+                        <span id="valid_indicator_{{ id }}" style='margin-left:5px;'class="control-label" ></span>
+                    </div>
+                </div>
+                <div class="modal fade" id="myModalJson{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelJson{{id}}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel{{id}}">Edition du json</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div role="tabpanel">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" role="tablist" id="tab_{{ id }}">
+                                        <li role="presentation" class="active"><a href="#editor_holder_{{id}}" aria-controls="editor_holder_{{id}}" role="tab" data-toggle="tab">Json Editor</a></li>
+                                        {% if attr.withSchema is defined %}<li role="presentation"><a href="#editor_schema_{{id}}_tab" aria-controls="editor_schema_{{id}}_tab" role="tab" data-toggle="tab">Schema Editor</a></li>{% endif %}
+                                    </ul>
+
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="editor_holder_{{id}}"></div>
+                                        {% if attr.withSchema is defined %}
+                                            <div role="tabpanel" class="tab-pane" id="editor_schema_{{id}}_tab">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <h2>Schema</h2>
+                                                        <p>Vous pouvez modifier le <a href="http://jeremydorn.com/json-editor/">schéma</a> et voir comment la forme générée ressemble . Après vous apportez des modifications , cliquez sur
+                                                            <button class="btn btn-primary"  id="btnJsonSchemaUpdate{{id}}" >Mise à jour du schéma</button>
+                                                        </p>
+                                                        <textarea id="schema_editor_{{id}}" name="schema_editor_{{full_name}}" class="form-control" style="height: 466px; margin: 0px -1px 0px 0px;" ></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="btnJsonModalSave{{ id }}" >Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        {% endif %}
     {% endspaceless %}
 {% endblock eliberty_json_widget %}
+
+{% block eliberty_colorpicker_widget %}
+    {% spaceless %}
+        <input type="text" {{ block('widget_attributes') }} class="pick-a-color form-control" >
+    {% endspaceless %}
+{% endblock eliberty_colorpicker_widget %}
