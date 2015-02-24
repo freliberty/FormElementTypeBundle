@@ -23,6 +23,29 @@
     {% endspaceless %}
 {% endblock eliberty_boolean_widget %}
 
+{% block eliberty_inversed_boolean_widget %}
+    {% spaceless %}
+        {% set entityName = getEntityName(form.parent.vars.data) %}
+        {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id  %}
+        <div class="{% if form.vars.attr.inline is defined and form.vars.attr.inline == 'true' %}col-lg-6 padding-left-20{% endif %}">
+            <div class="bool-slider
+        {% if value is not empty %}
+            {% if value == 'true' or value == 1 %}
+                false
+            {% elseif value == 0 and value == 'false' %}
+                true
+            {% endif %}
+        {% else %} true {% endif %} {{className}}">
+                <div class="inset {{className}}">
+                    <div class="control {{className}}">
+                        <input type="hidden"  {{ block('widget_attributes') }}  value="{% if value is not empty %}{% if value == 1 %}true{% elseif value == 0 and value != 'true' %}false{% else %}{{ value }}{% endif %}{% else %}false{% endif %}" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_inversed_boolean_widget %}
+
 {% block eliberty_datetime_picker_widget %}
     {% spaceless %}
         <div class="">

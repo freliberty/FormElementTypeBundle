@@ -6,6 +6,9 @@ services:
     eliberty.form.type.boolean:
         class: Eliberty\Bundle\FormElementTypeBundle\Form\BooleanType
         tags: [{ name: form.type, alias: eliberty_boolean }]
+    eliberty.form.type.inversed_boolean:
+        class: Eliberty\Bundle\FormElementTypeBundle\Form\InversedBooleanType
+        tags: [{ name: form.type, alias: eliberty_inversed_boolean }]
     eliberty.form.type.markdown.editor:
         class: Eliberty\Bundle\FormElementTypeBundle\Form\MarkdownEditorType
         tags: [{ name: form.type, alias: eliberty_markdown_editor }]

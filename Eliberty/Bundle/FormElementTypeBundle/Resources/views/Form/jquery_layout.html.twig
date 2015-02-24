@@ -21,6 +21,29 @@
     {% endspaceless %}
 {% endblock eliberty_boolean_javascript %}
 
+{% block eliberty_inversed_boolean_javascript %}
+    {% spaceless %}
+        {% set entityName = getEntityName(form.parent.vars.data) %}
+        {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id  %}
+        <script type="text/javascript">
+            $(function () {
+                'use strict';
+                $('.{{className}}').click(function() {
+                    if (!$(this).parent().parent().hasClass('disabled')) {
+                        if ($(this).parent().parent().hasClass('true')) {
+                            $(this).parent().parent().addClass('false').removeClass('true');
+                            $(this).children().val('true');
+                        } else {
+                            $(this).children().val('false');
+                            $(this).parent().parent().addClass('true').removeClass('false');
+                        }
+                    }
+                });
+            });
+        </script>
+    {% endspaceless %}
+{% endblock eliberty_inversed_boolean_javascript %}
+
 {% block eliberty_multiselect_javascript %}
     {% spaceless %}
         {% if attr.withoutJsFile is not defined %}
