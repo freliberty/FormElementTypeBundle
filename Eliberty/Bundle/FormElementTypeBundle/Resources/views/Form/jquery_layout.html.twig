@@ -307,9 +307,9 @@
                 {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':jsoneditor.html.twig' %}
             {% endif %}
             <script type="text/javascript">
-                var schema_{{ id }} = {% if attr.schema is defined %}{{attr.schema}}{% else %}'{}'{% endif %};
+                var schema_{{ id }} = {% if attr.schema is defined %}{{attr.schema | raw}}{% else %}'{}'{% endif %};
                 var jsonEditor_{{ id }};
-                var startval_{{ id }} = {% if value is null or value == '' %}''{% else %}{{ value }}{% endif %};
+                var startval_{{ id }} = {% if value is null or value == '' %}''{% else %}{{ value | raw }}{% endif %};
                 var editor_{{ id }} = document.getElementById("editor_holder_{{ id }}");
                 var validate_{{ id }} = document.getElementById('valid_indicator_{{ id }}');
                 $(function () {
