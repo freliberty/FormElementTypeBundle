@@ -1,3 +1,4 @@
+{#boolean#}
 {% block eliberty_boolean_widget %}
     {% spaceless %}
         {% set entityName = getEntityName(form.parent.vars.data) %}
@@ -22,7 +23,7 @@
         </div>
     {% endspaceless %}
 {% endblock eliberty_boolean_widget %}
-
+{#inverse boolean if click true then get false#}
 {% block eliberty_inversed_boolean_widget %}
     {% spaceless %}
         {% set entityName = getEntityName(form.parent.vars.data) %}
@@ -45,7 +46,7 @@
         </div>
     {% endspaceless %}
 {% endblock eliberty_inversed_boolean_widget %}
-
+{#datetime picker#}
 {% block eliberty_datetime_picker_widget %}
     {% spaceless %}
         <div class="">
@@ -58,7 +59,7 @@
         </div>
     {% endspaceless %}
 {% endblock eliberty_datetime_picker_widget %}
-
+{#label datepicker#}
 {% block eliberty_datepicker_label %}
     {% spaceless %}
         <label  class=" control-label col-lg-3 optional">
@@ -66,7 +67,7 @@
         </label>
     {% endspaceless %}
 {% endblock eliberty_datepicker_label %}
-
+{#date picker#}
 {% block eliberty_datepicker_widget %}
     {% spaceless %}
     <div class="input-group {% if attr['classSize'] is defined %} {{attr['classSize']}} {% endif %}" >
@@ -75,10 +76,10 @@
     </div>
     {% endspaceless %}
 {% endblock eliberty_datepicker_widget %}
-
+{#choice multiselect#}
 {% block eliberty_multiselect_widget %}
     {% spaceless %}
-    <div class=" col-lg-{% if form.vars.attr.position is defined %}12{%else%}9{% endif %}">
+    {#<div class=" col-lg-{% if form.vars.attr.position is defined %}12{%else%}9{% endif %}">#}
         <select  {{ block('widget_attributes') }}  class='form-control multiselect_{{ id }}' multiple="multiple" >
              {% for group_label, choice in choices %}
                     {% if choice is iterable %}
@@ -93,12 +94,10 @@
                 {% endif %}
             {% endfor %}
         </select>
-    </div>
-    {#<a id="{{ [id,'select']|join('-')}}" style='margin-left:5px;' class="btn btn-primary">Select All</a>#}
-    {#<a id="{{ [id,'deselect']|join('-')}}" class="btn btn-primary">Deselect All</a>#}
+    {#</div>#}
     {% endspaceless %}
 {% endblock eliberty_multiselect_widget %}
-
+{#choice with all ajax data for populate field#}
 {% block eliberty_rest_choice_widget %}
     {% spaceless %}
         <div class="col-lg-9">
@@ -112,13 +111,13 @@
         </div>
     {% endspaceless %}
 {% endblock eliberty_rest_choice_widget %}
-
+{#Marckdown editor#}
 {% block eliberty_markdown_editor_widget %}
     {% spaceless %}
         <textarea {{ block('widget_attributes') }} class="form-control markdown_editor_{{ id }}" style="margin-top:10px;" >{{ value }} </textarea>
     {% endspaceless %}
 {% endblock eliberty_markdown_editor_widget %}
-
+{#Checkbox with tow choice#}
 {% block eliberty_expanded_widget %}
     {% spaceless %}
         <div {{ block('widget_container_attributes') }} class="btn-group" data-toggle="buttons">
@@ -130,7 +129,7 @@
         </div>
     {% endspaceless %}
 {% endblock eliberty_expanded_widget %}
-
+{#Choice with boostrap color (danger, info , warning)#}
 {% block eliberty_bnt_choice_widget %}
     {% spaceless %}
         <div class=" col-lg-{% if form.vars.attr.position is defined %}12{%else%}9{% endif %}">
@@ -151,6 +150,7 @@
         </div>
     {% endspaceless %}
 {% endblock eliberty_bnt_choice_widget %}
+{#Json editor with schema#}
 {% block eliberty_json_widget %}
     {% spaceless %}
         {#{{ block('widget_attributes') }}#}
@@ -210,9 +210,151 @@
         {% endif %}
     {% endspaceless %}
 {% endblock eliberty_json_widget %}
-
+{#colorpicker#}
 {% block eliberty_colorpicker_widget %}
     {% spaceless %}
-        <input type="text" {{ block('widget_attributes') }} class="pick-a-color form-control" >
+        <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="pick-a-color form-control" >
     {% endspaceless %}
 {% endblock eliberty_colorpicker_widget %}
+{#Upload document#}
+{% block eliberty_file_upload_widget %}
+    {% spaceless %}
+
+        {% image '@RedpillBundle/Resources/public/images/empty.png' %}
+        {% set noImg = asset_url %}
+        {% endimage %}
+        <input type="hidden" {{ block('widget_attributes') }}
+                {% if form.vars.value is defined and form.vars.value is not null and getUploadedImagePath(form.vars.value, getEntityName(form.parent.vars.data)) != '' %}
+                    value='{{form.vars.value}}'
+                {% elseif uploadHasImage(form.vars.value) != ''  %}
+                    value='{{form.vars.value}}'
+                {% endif %} />
+        <input type="hidden" name="h" id="h-{{ form.vars.id }}" />
+        <input type="hidden" name="w" id="w-{{ form.vars.id }}" />
+        <input type="hidden" name="x" id="x-{{ form.vars.id }}" />
+        <input type="hidden" name="y" id="y-{{ form.vars.id }}" />
+
+        <div id="secndCTBlock_{{ form.vars.id }}" class="upload_file secndCTBlock" style="text-align:center">
+            <div id="thumbnail_{{ form.vars.id }}" class="thumbnail  {% if form.vars.attr.classImg is defined %} {{ form.vars.attr.classImg }} {% endif %}"
+                    {% if form.vars.value is empty and form.vars.attr.noimage is not defined %} style="display:none;" {% endif %}>
+
+                <img id="final-pic-{{ form.vars.id }}"  alt="{% trans %}rp.generic.upload.photo{% endtrans %}, {% trans %}rp.generic.upload.maxsize{% endtrans %}" class="uploadThumbImg"
+                        {% if form.vars.value ends with 'pdf' %}
+                     src="/bundles/redpill/images/pdf.png"><a href="{{ getUploadedImagePath(form.vars.value, getEntityName(form.parent.vars.data))}}"><span>{{ 'rp.generic.upload.pdf' | trans }}</span></a></img>
+                {% else  %}
+                    src="{% if form.vars.value is not empty and form.vars.value is not null and getUploadedImagePath(form.vars.value, getEntityName(form.parent.vars.data)) != '' %}{{ getUploadedImagePath(form.vars.value, getEntityName(form.parent.vars.data))}}{% elseif uploadHasImage(form.vars.value) != '' %}{{uploadHasImage(form.vars.value)}}{% else %}{{'/bundles/redpill/images/noimage.png'}}{% endif %}">
+                {% endif %}
+            </div>
+            <div class="{% if form.vars.attr.inline is defined and form.vars.attr.inline == 'true' %}col-xs-8{% else %}row{% endif %}">
+                <div id="imguploader_{{ form.vars.id }}" class="imguploader
+                {% if form.vars.attr.withCropper is defined and form.vars.attr.withCropper == 'true' %} withCropper {% endif %}
+                {% if form.vars.attr.classDivBtn is defined %} {{ form.vars.attr.classDivBtn }} {% endif %}
+                " role="{% if form.vars.attr.extensions is defined %}{{ form.vars.attr.extensions }}{% else %}gif|jpeg|jpg|png{% endif %}" rel="{{ form.vars.id }}"></div>
+                <div class="uploadmessages"></div>
+            </div>
+        </div>
+        <!-- modal-gallery is the modal dialog used for the image gallery -->
+        <div id="modal-pop-{{ form.vars.id }}"  class="modal fade" title="{% trans %}rp.generic.upload.modalcrop.title{% endtrans %}" tabindex="100000000" role="dialog" aria-labelledby="myModalPopUpLabel" aria-hidden="true" >
+            <div id="modal-dialog-{{ form.vars.id }}" class="modal-dialog {% if form.vars.attr.modalFile is defined %} {{ form.vars.attr.modalFile }} {% endif %}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">{% trans %}rp.generic.upload.modalcrop.info1{% endtrans %}<br />{% trans %}rp.generic.upload.modalcrop.info2{% endtrans %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row centralpanel">
+                            <div class="col-xs-8">
+                                <div class="picholder">
+                                    <img id="cropbox_{{ form.vars.id }}" src="{{ noImg }}" alt="blank" />
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div id="keycard">
+                                    <div id="previewholder">
+                                        <img id="preview_{{ form.vars.id }}" src="{{ noImg }}">
+                                    </div>
+                                </div>
+                                <div class="tools">
+                                    <a href="#" id="rotator_{{ form.vars.id }}" class="btn btn-lg btn-warnning rotator">{% trans %}rp.generic.upload.modalcrop.rotation{% endtrans %} <span class="glyphicon glyphicon-retweet"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row hidden">
+                            <div class="alert alert-info small">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div>
+                            <div class="col-xs-6" style="text-align:right; line-height: 30px;">
+                                {% trans %}rp.generic.upload.modalcrop.ok{% endtrans %}
+                            </div>
+                            <div class="col-xs-6" style="text-align:left">
+                                <button id="picsaver_{{ form.vars.id }}" class="btn btn-primary btn-large picsaver">{% trans %}rp.generic.upload.modalcrop.save{% endtrans %} <span class="glyphicon glyphicon-share"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_file_upload_widget %}
+{#tags#}
+{% block eliberty_tags_label %}
+    {% spaceless %}
+        {{ label }}
+    {% endspaceless %}
+{% endblock eliberty_tags_label %}
+{% block eliberty_tags_widget %}
+    {% spaceless %}
+        <input type="text" {{ block('widget_attributes') }}   class="demo-default input-tags" value="{% for key,choice in choices %}{{choice.label}}{% if (choices | last)  != choice %},{% endif %}{% endfor %}" />
+    {% endspaceless %}
+{% endblock eliberty_tags_widget %}
+{#Keycard#}
+{% block eliberty_keycard_skidata_widget %}
+    {% spaceless %}
+        <div class="row skidata_keycard no-margin">
+            <div class="col-xs-{% if form.vars.attr.firstDiv is defined %}{{form.vars.attr.firstDiv}}{% else %}2{% endif %} no-padding-left chip">
+                {{ form_widget(form.chip) }}
+            </div>
+            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}8{% endif %} no-padding key-center serial">
+                {{ form_widget(form.base) }}
+            </div>
+            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}2{% endif %}  no-padding-right pull-right luhn">
+                {{ form_widget(form.luhn) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_keycard_skidata_widget %}
+{% block eliberty_keycard_teamaxess_widget %}
+    {% spaceless %}
+        <div class="row teamaxess_keycard">
+            <div class="col-xs-6 no-padding wtp">
+                {{ form_widget(form.wtp) }}
+            </div>
+            <div class="col-xs-1 no-padding"> </div>
+            <div class="col-xs-2 no-padding crc">
+                {{ form_widget(form.crc) }}
+            </div>
+            <div class="col-xs-1 no-padding"> </div>
+            <div class="col-xs-2 no-padding acceptance">
+                {{ form_widget(form.acceptance) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_keycard_teamaxess_widget %}
+{% block eliberty_keycard_open_widget %}
+    {% spaceless %}
+        <div class="open_keycard">
+            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}9{% endif %} no-padding key-center serial">
+                {{ form_widget(form.base) }}
+            </div>
+            <div class="col-xs-1 no-padding pull-left text-right keycard-separator"> - </div>
+            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}2{% endif %}  no-padding-right pull-right luhn">
+                {{ form_widget(form.luhn) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_keycard_open_widget %}

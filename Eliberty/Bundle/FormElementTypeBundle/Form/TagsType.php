@@ -4,23 +4,25 @@ namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class InversedBooleanType
- * responsability: overload the text fields turning it into an "inversed" boolean style
- * ===> false is display as On and true is display as Off
+ * Class TagsType
+ * Responsability: overload the entity fields and turning it into tags field
  * @package Eliberty\RedpillBundle\Form\FormElementType
  */
-class InversedBooleanType extends AbstractType
+class TagsType extends AbstractType
 {
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'widget' => 'inversed_boolean_widget'
-        ));
+        $resolver->setDefaults([
+            'widget' => 'tags_widget'
+        ]);
     }
 
     /**
@@ -28,7 +30,7 @@ class InversedBooleanType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return 'entity';
     }
 
     /**
@@ -36,6 +38,8 @@ class InversedBooleanType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_inversed_boolean';
+        return 'eliberty_tags';
     }
+
+
 }

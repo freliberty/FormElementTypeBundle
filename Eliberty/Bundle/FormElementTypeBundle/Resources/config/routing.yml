@@ -1,3 +1,0 @@
-eliberty_form_element_type_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: ElibertyFormElementTypeBundle:Default:index }

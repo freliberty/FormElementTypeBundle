@@ -6,12 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class InversedBooleanType
- * responsability: overload the text fields turning it into an "inversed" boolean style
- * ===> false is display as On and true is display as Off
- * @package Eliberty\RedpillBundle\Form\FormElementType
+ * Class FileUploadType
+ * @package Eliberty\Bundle\FormElementTypeBundle\Form
  */
-class InversedBooleanType extends AbstractType
+class FileUploadType extends AbstractType
 {
     /**
      * @param OptionsResolver $resolver
@@ -19,7 +17,7 @@ class InversedBooleanType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'widget' => 'inversed_boolean_widget'
+            'widget' => 'file_upload_widget'
         ));
     }
 
@@ -36,6 +34,6 @@ class InversedBooleanType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_inversed_boolean';
+        return 'eliberty_file_upload';
     }
 }
