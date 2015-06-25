@@ -8,7 +8,7 @@
 
 {% block eliberty_markdown_editor_stylesheet %}
     {% spaceless %}
-        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':marckdown.html.twig' %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':markdown.html.twig' %}
     {% endspaceless %}
 {% endblock eliberty_markdown_editor_stylesheet %}
 
@@ -35,7 +35,7 @@
 
 {% block eliberty_bnt_choice_stylesheet %}
     {% spaceless %}
-        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':boostrap-select.html.twig' %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':bootstrap-select.html.twig' %}
     {% endspaceless %}
 {% endblock eliberty_bnt_choice_stylesheet %}
 
@@ -50,3 +50,27 @@
         {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':colorpicker.html.twig' %}
     {% endspaceless %}
 {% endblock eliberty_colorpicker_stylesheet %}
+
+{% block eliberty_file_upload_stylesheet %}
+    {% spaceless %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':fileupload.html.twig' %}
+    {% endspaceless %}
+{% endblock eliberty_file_upload_stylesheet %}
+
+{% block eliberty_tags_stylesheet %}
+    {% spaceless %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':selectize.html.twig' %}
+    {% endspaceless %}
+{% endblock eliberty_tags_stylesheet %}
+
+{% block eliberty_expanded_widget %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }} class="btn-group" data-toggle="buttons">
+            {% for child in form %}
+                <label class="btn btn-primary {% if child.vars.checked == 1 %} active {% endif %}">
+                    <input type="radio" {{ block('widget_attributes') }}{% if child.vars.value is defined %} value="{{ child.vars.value }}"{% endif %}{% if child.vars.checked %} checked="checked"{% endif %} />{{ child.vars.label|trans }}
+                </label>
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_expanded_widget %}

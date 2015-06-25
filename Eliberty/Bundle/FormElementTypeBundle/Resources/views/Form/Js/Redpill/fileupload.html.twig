@@ -1,0 +1,29 @@
+<script type="text/javascript">
+    //on va modifier le texte du bouton d'upload de justif si etudiant :
+    var txtBtnChooseFile = "{% trans %}rp.generic.upload.btn.file{% endtrans %}";
+    var txtCancel ="{% trans %}rp.generic.cancel{% endtrans %}";
+    var txtProbleme ="{% trans %}rp.generic.problem{% endtrans %}";
+    var txtBtnRetry ="{% trans %}rp.generic.retry{% endtrans %}";
+    var txtUploadFailed = "{% trans %}rp.generic.upload.failed{% endtrans %}";
+    var txtFrom = "{% trans %}rp.generic.from{% endtrans %}";
+    var txtPending = "{% trans %}rp.generic.pending{% endtrans %}";
+    var txtMessageTypeError = "{% trans %}rp.generic.upload.typeError{% endtrans %}";
+    var txtMessageSizeError= "{% trans %}rp.generic.upload.sizeError{% endtrans %}";
+    var txtMessageMinSizeError= "{% trans %}rp.generic.upload.minSizeError{% endtrans %}";
+    var txtMessageEmptyError= "{% trans %}rp.generic.upload.empty{% endtrans %}";
+    var txtMessageNoFilesError= "{% trans %}rp.generic.upload.nofile{% endtrans %}";
+    var classBtn = "{% if form.vars.attr.classBtn is defined %} {{form.vars.attr.classBtn}} {% else %} col-lg-offset-1 col-lg-5 {% endif %}";
+    var classUpload = "{% if form.vars.attr.classUpload is defined %} {{form.vars.attr.classUpload}} {% else %} col-lg-12 {% endif %}";
+</script>
+{% if form.vars.attr.disableJsFile is not defined %}
+    {% javascripts
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/modal.js'
+    '@RedpillBundle/Resources/public/components/jquery-bgiframe/jquery.bgiframe.js'
+    '@RedpillBundle/Resources/public/js/jquery.fineuploader-3.0.min.js'
+    '@RedpillBundle/Resources/public/components/jcrop/js/jquery.Jcrop.min.js'
+    '@RedpillBundle/Resources/public/components/jquery.gritter/js/jquery.gritter.min.js'
+    '@RedpillBundle/Resources/public/js/libs/upload/uploadmanager.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endif %}

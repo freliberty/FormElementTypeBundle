@@ -1,17 +1,17 @@
 {% block eliberty_boolean_javascript %}
     {% spaceless %}
         {% set entityName = getEntityName(form.parent.vars.data) %}
-        {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id  %}
+        {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id %}
         <script type="text/javascript">
             $(function () {
                 'use strict';
-                $('.{{className}}').click(function() {
+                $('.{{className}}').click(function () {
                     if (!$(this).parent().parent().hasClass('disabled')) {
                         if ($(this).parent().parent().hasClass('true')) {
                             $(this).parent().parent().addClass('false').removeClass('true');
-                            $(this).children().attr('value','false');
+                            $(this).children().attr('value', 'false');
                         } else {
-                            $(this).children().attr('value','true');
+                            $(this).children().attr('value', 'true');
                             $(this).parent().parent().addClass('true').removeClass('false');
                         }
                     }
@@ -24,11 +24,11 @@
 {% block eliberty_inversed_boolean_javascript %}
     {% spaceless %}
         {% set entityName = getEntityName(form.parent.vars.data) %}
-        {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id  %}
+        {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id %}
         <script type="text/javascript">
             $(function () {
                 'use strict';
-                $('.{{className}}').click(function() {
+                $('.{{className}}').click(function () {
                     if (!$(this).parent().parent().hasClass('disabled')) {
                         if ($(this).parent().parent().hasClass('true')) {
                             $(this).parent().parent().addClass('false').removeClass('true');
@@ -85,12 +85,12 @@
             {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':datetimepicker.html.twig' %}
         {% endif %}
         <script type="text/javascript">
-        $(function () {
-            $('#{{id}}').datetimepicker({
-                language: 'fr',
-                pick12HourFormat: false
+            $(function () {
+                $('#{{id}}').datetimepicker({
+                    language: 'fr',
+                    pick12HourFormat: false
+                });
             });
-        });
         </script>
     {% endspaceless %}
 {% endblock %}
@@ -100,23 +100,28 @@
         {% if attr.withoutJsFile is not defined %}
             {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':datepicker.html.twig' %}
         {% endif %}
-    <script type="text/javascript">
-    $(function () {
-         $('.eliberty_datepicker').datepicker(
-            {
-                format: 'dd/mm/yyyy',
-                autoclose: true,
-                startDate: moment().toDate(),
-                weekStart: 1,
-                language: '{{ app.request.locale |lower }}',
-                onRender: function(date) {
-                    return date.valueOf() < tomorrow.valueOf() ? 'disabled' : '';
-                }
-            }
-        );
-        $('.glyphicon-calendar').on('click', function(e){$(this).closest('.input-group').find('input').datepicker('show');});
-    });
-    </script>
+        <script type="text/javascript">
+            $(function () {
+                $('#{{id}}').datepicker(
+                        {
+                            format: 'dd/mm/yyyy',
+                            autoclose: true,
+                            startDate: {% if attr.startDate is defined %}"{{ attr.startDate }}"
+                            {% else %}moment().toDate(){% endif %},
+                            weekStart: 1,
+                            language: '{{ app.request.locale |lower }}',
+                            onRender: function (date) {
+                                return date.valueOf() < tomorrow.valueOf() ? 'disabled' : '';
+                            }
+                        }
+                ).on('show', function (e) {
+                            $('.datepicker').css('z-index', 99999999999999);
+                        });
+                $('.glyphicon-calendar').on('click', function (e) {
+                    $(this).closest('.input-group').find('input').datepicker('show');
+                });
+            });
+        </script>
     {% endspaceless %}
 {% endblock eliberty_datepicker_javascript %}
 
@@ -124,7 +129,7 @@
     {% spaceless %}
         {% if attr.withoutJsFile is not defined %}
             {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/jquery.numeric.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
+            <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endif %}
         <script type="text/javascript">
@@ -141,7 +146,7 @@
     {% spaceless %}
         {% if attr.withoutJsFile is not defined %}
             {% javascripts '@ElibertyFormElementTypeBundle/Resources/public/js/jquery.numeric.js' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
+            <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endif %}
         <script type="text/javascript">
@@ -151,43 +156,49 @@
 {% endblock eliberty_decimal_javascript %}
 
 {% block eliberty_rest_choice_javascript %}
-<script type="text/javascript">
-    {% if attr.start is defined and attr.start != "" %}
-        $(function () {
-            $('#{{id}}').chosen()
-        });
-        function {{attr.start}} {
-            var valueParent = $('#' + id).val();
-            var params = "{{attr.params}}";
-            var newParams = params.replace('(id)', valueParent);
-                {% if attr.parentId is defined and attr.parentId != "" %}
-                    var valueFirstParent = $('#{{attr.parentId}}').val();
-                    newParams = newParams.replace('(parentId)', valueFirstParent)
-                {% endif %}
-    {% else %}
+    <script type="text/javascript">
+        {% if attr.start is defined and attr.start != "" %}
+            $(function () {
+                $('#{{id}}').chosen()
+            });
+            function {{attr.start}} {
+                var valueParent = $('#' + id).val();
+                var newParams = null;
+                    {% if attr.params is defined and attr.params != "" %}
+                        var params = "{{attr.params}}";
+                        var newParams = params.replace('(id)', valueParent);
+                            {% if attr.parentId is defined and attr.parentId != "" %}
+                                var valueFirstParent = $('#{{attr.parentId}}').val();
+                                newParams = newParams.replace('(parentId)', valueFirstParent)
+                            {% endif %}
+                    {% endif %}
+        {% else %}
             $(function () {
                         $('#{{id}}').chosen()
                         var newParams = null;
-    {% endif %}
+        {% endif %}
                         var newRoute = '{{attr.route}}';
+                        if (typeof valueParent != 'undefined' && newRoute.indexOf('-1')) {
+                            newRoute = newRoute.replace('-1', valueParent);
+                        }
                         var spinner = $('.container_spinner').html();
                         $.when($.ajax({
-                                    type: 'GET',
-                                    dataType: 'json',
-                                    data: {'params': newParams},
-                                    url: newRoute,
-                                    {% if attr.ajaxstart is defined and attr.ajaxstart != "" %}
-                                    beforeSend: function () {
-                                        $(".{{attr.ajaxstart}}").empty().html($('.container_spinner').html());
-                                    },
-                                    complete: function () {
-                                        $(".{{attr.ajaxstart}}").empty();
-                                    },
-                                    {% endif %}
-                                })).then(function (data) {
+                            type: 'GET',
+                            dataType: 'json',
+                            data: {'params': newParams},
+                            url: newRoute,
+                            {% if attr.ajaxstart is defined and attr.ajaxstart != "" %}
+                            beforeSend: function () {
+                                $(".{{attr.ajaxstart}}").empty().html($('.container_spinner').html());
+                            },
+                            complete: function () {
+                                $(".{{attr.ajaxstart}}").empty();
+                            },
+                            {% endif %}
+                        })).then(function (data) {
                             var obj = $('#{{id}}');
                             obj.find("option").remove();
-                           // obj.append(new Option('-----------------------------------------', -1));
+                            // obj.append(new Option('-----------------------------------------', -1));
                             $.each({{attr.dataResponse}}, function (i, item) {
                                 var option = new Option({{attr.dataLabel}}, item.id);
                                 $(option).attr('data', encodeURIComponent(JSON.stringify(item)));
@@ -200,32 +211,36 @@
                                     {{attr.change}}('{{id}}');
                                 });
                             {% endif %}
-
                             $('ul.dropdown-menu.inner').css('position', 'relative');
                             $('ul.dropdown-menu.inner').find('li').find('i').remove();
-
                         }, function (err) {
                             onAjaxApiError(err);
                         });
                     }
-    {% if attr.start is not defined %} ); {% endif %}
-</script>
+        {% if attr.start is not defined %}
+            );
+        {% endif %}
+    </script>
 {% endblock eliberty_rest_choice_javascript %}
 
 {% block eliberty_chosen_javascript %}
- {% spaceless %}
-     <script type="text/javascript">
-         $(function () {
-             'use strict';
-            $('#{{form.vars.id}}').chosen({
-                    {% if attr.max_selected_options is defined %} max_selected_options: {{attr.max_selected_options}},  {% endif %}
-                    {% if attr.allow_single_deselect is defined %} allow_single_deselect: true, {% endif %}
-                    {% if attr.search_contains is defined %} search_contains: true, {% endif %}
-                    {% if attr.placeholder_text_single is defined %} placeholder_text_single: '{{attr.placeholder_text_single}}', {% endif %}
-             });
-        });
-    </script>
-  {% endspaceless %}
+    {% spaceless %}
+        <script type="text/javascript">
+            $(function () {
+                'use strict';
+                $('#{{id}}').chosen({
+                    {% if attr.max_selected_options is defined %}
+                    max_selected_options: {{attr.max_selected_options}}, {% endif %}
+                    {% if attr.allow_single_deselect is defined %}
+                    allow_single_deselect: true, {% endif %}
+                    {% if attr.search_contains is defined %}
+                    search_contains: true, {% endif %}
+                    {% if attr.placeholder_text_single is defined %}
+                    placeholder_text_single: '{{attr.placeholder_text_single}}', {% endif %}
+                });
+            });
+        </script>
+    {% endspaceless %}
 {% endblock eliberty_chosen_javascript %}
 
 {% block eliberty_chosen_entity_javascript %}
@@ -234,10 +249,15 @@
             $(function () {
                 'use strict';
                 $('#{{form.vars.id}}').chosen({
-                    {% if attr.max_selected_options is defined %} max_selected_options: {{attr.max_selected_options}},  {% endif %}
-                    {% if attr.allow_single_deselect is defined %} allow_single_deselect: true, {% endif %}
-                    {% if attr.search_contains is defined %} search_contains: true, {% endif %}
-                    {% if attr.placeholder_text_single is defined %} placeholder_text_single: '{{attr.placeholder_text_single}}', {% endif %}
+                    width: "95%",
+                    {% if attr.max_selected_options is defined %}
+                    max_selected_options: {{attr.max_selected_options}}, {% endif %}
+                    {% if attr.allow_single_deselect is defined %}
+                    allow_single_deselect: true, {% endif %}
+                    {% if attr.search_contains is defined %}
+                    search_contains: true, {% endif %}
+                    {% if attr.placeholder_text_single is defined %}
+                    placeholder_text_single: '{{attr.placeholder_text_single}}', {% endif %}
                 });
             });
         </script>
@@ -251,19 +271,19 @@
 
             $(function () {
                 $('.eliberty_bnt_choice_{{ id }}').selectpicker();
-                $('.eliberty_bnt_choice_{{ id }}').css('width','inherit');
+                $('.eliberty_bnt_choice_{{ id }}').css('width', 'inherit');
                 {% if attr.setStyle is defined %}
+                setStyleSelect();
+                $('.eliberty_bnt_choice_{{ id }}').on('change', function (e) {
                     setStyleSelect();
-                    $('.eliberty_bnt_choice_{{ id }}').on('change', function(e) {
-                        setStyleSelect();
-                    });
+                });
                 {% endif %}
             });
             {% if attr.setStyle is defined %}
-            function setStyleSelect(){
+            function setStyleSelect() {
                 var selectObj = $('.eliberty_bnt_choice_{{ id }}');
                 var style = 'btn-success';
-                if(jQuery.inArray(selectObj.val(), '{{ attr.danger }}'.split(',')) !== -1) {
+                if (jQuery.inArray(selectObj.val(), '{{ attr.danger }}'.split(',')) !== -1) {
                     style = 'btn-danger';
                 } else if (jQuery.inArray(selectObj.val(), '{{ attr.info }}'.split(',')) !== -1) {
                     style = 'btn-info';
@@ -291,7 +311,7 @@
                 var jsonEditor_{{ id }};
                 var startval_{{ id }} = {% if value is null or value == '' %}''{% else %}{{ value }}{% endif %};
                 var editor_{{ id }} = document.getElementById("editor_holder_{{ id }}");
-                var validate_{{ id }} = document.getElementById('valid_indicator_{{ id }}') ;
+                var validate_{{ id }} = document.getElementById('valid_indicator_{{ id }}');
                 $(function () {
 
 
@@ -304,17 +324,17 @@
                      * reload schema
                      * @param keep_value
                      */
-                    var reload_{{ id }} = function(keep_value) {
-                        var startval = (jsonEditor_{{ id }} && keep_value)? jsonEditor_{{ id }}.getValue() : window.startval_{{ id }};
+                    var reload_{{ id }} = function (keep_value) {
+                        var startval = (jsonEditor_{{ id }} && keep_value) ? jsonEditor_{{ id }}.getValue() : window.startval_{{ id }};
                         window.startval_{{ id }} = undefined;
 
-                        if(startval instanceof Object && startval.hasOwnProperty('data')){
+                        if (startval instanceof Object && startval.hasOwnProperty('data')) {
                             startval = startval.data;
                         }
                         //destroy last editor if exist
-                        if(jsonEditor_{{ id }}) jsonEditor_{{ id }}.destroy();
+                        if (jsonEditor_{{ id }}) jsonEditor_{{ id }}.destroy();
                         //create new editor
-                        jsonEditor_{{ id }} = new JSONEditor(editor_{{ id }},{
+                        jsonEditor_{{ id }} = new JSONEditor(editor_{{ id }}, {
                             schema: schema_{{ id }},
                             theme: 'bootstrap2',
                             startval: startval
@@ -323,27 +343,27 @@
                         //set the language
                         JSONEditor.defaults.language = '{{ app.request.locale }}';
                         {% raw %}
-                            JSONEditor.defaults.languages.fr = {
-                                error_minLength: "La valeur doit être au moins {{0}} caractères!"
-                            };
+                        JSONEditor.defaults.languages.fr = {
+                            error_minLength: "La valeur doit être au moins {{0}} caractères!"
+                        };
                         {% endraw %}
 
                         window.jsonEditor_{{ id }} = jsonEditor_{{ id }};
 
                         // When the value of the editor changes, update the JSON output and validation message
-                        jsonEditor_{{ id }}.on('change',function() {
+                        jsonEditor_{{ id }}.on('change', function () {
                             var json = jsonEditor_{{ id }}.getValue();
                             var validation_errors = jsonEditor_{{ id }}.validate();
 
                             // Show validation errors if there are any
-                            if(validation_errors.length) {
+                            if (validation_errors.length) {
                                 $('#btnJson{{ id }}').removeClass('btn-success').addClass('btn-danger')
-                                if($('#{{ id }}').parent().parent().hasClass('has-error') === false) {
+                                if ($('#{{ id }}').parent().parent().hasClass('has-error') === false) {
                                     var errorAsString = '';
                                     $.each(validation_errors, function (index, obj) {
                                         errorAsString += '<br>' + obj.message;
                                     });
-                                    $('#valid_indicator_{{ id }}').html(errorAsString).css('color','red');
+                                    $('#valid_indicator_{{ id }}').html(errorAsString).css('color', 'red');
                                 }
                             } else {
                                 $('#valid_indicator_{{ id }}').empty();
@@ -357,12 +377,12 @@
                     /**
                      * update schema
                      */
-                    $('#btnJsonSchemaUpdate{{id}}').on('click', function(event){
+                    $('#btnJsonSchemaUpdate{{id}}').on('click', function (event) {
                         event.preventDefault();
                         try {
                             schema_{{ id }} = JSON.parse($('#schema_editor_{{id}}').val());
-                        } catch(e) {
-                            alert('Invalid Schema: '+e.message);
+                        } catch (e) {
+                            alert('Invalid Schema: ' + e.message);
                             return;
                         }
                         reload_{{ id }}();
@@ -372,15 +392,15 @@
                     /**
                      * save the data and the schema into textarea
                      */
-                    $("#btnJsonModalSave{{ id }}").on('click', function(event){
-                        var jsonData ;
+                    $("#btnJsonModalSave{{ id }}").on('click', function (event) {
+                        var jsonData;
                         {% if attr.withSchema is defined %}
-                            jsonData = {
-                                "schema" : jsonEditor_{{ id }}.schema,
-                                "data" : jsonEditor_{{ id }}.getValue()
-                            };
+                        jsonData = {
+                            "schema": jsonEditor_{{ id }}.schema,
+                            "data": jsonEditor_{{ id }}.getValue()
+                        };
                         {% else %}
-                            jsonData = jsonEditor_{{ id }}.getValue();
+                        jsonData = jsonEditor_{{ id }}.getValue();
                         {% endif %}
 
                         $('#{{ id }}').val(jsl.format.formatJson(JSON.stringify(jsonData)));
@@ -389,7 +409,7 @@
                 });
 
             </script>
-        {% endif  %}
+        {% endif %}
     {% endspaceless %}
 {% endblock eliberty_json_javascript %}
 
@@ -401,10 +421,74 @@
                 'use strict';
                 $('#{{ id }}').pickAColor();
                 {% if attr.sizeClass is defined %}
-                    $('#{{ id }}').parent().parent().addClass('{{ attr.sizeClass }}');
+                $('#{{ id }}').parent().parent().addClass('{{ attr.sizeClass }}');
                 {% endif %}
-                $('.content').css('overflow-y','auto');
+                $('.content').css('overflow-y', 'auto');
             });
         </script>
     {% endspaceless %}
 {% endblock eliberty_colorpicker_javascript %}
+
+{% block eliberty_file_upload_javascript %}
+    {% spaceless %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':fileupload.html.twig' %}
+        <script type="text/javascript">
+            $(function () {
+                'use strict';
+                var uploadManager_{{id | raw}} = new UploadManager('{{id | raw}}');
+                uploadManager_{{form.vars.id | raw}}.initGritter();
+                uploadManager_{{form.vars.id | raw}}.initJcrop();
+                uploadManager_{{form.vars.id | raw}}.initActions();
+            });
+        </script>
+    {% endspaceless %}
+{% endblock eliberty_file_upload_javascript %}
+
+{% block eliberty_tags_javascript %}
+    {% spaceless %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':selectize.html.twig' %}
+        <script type="text/javascript">
+            $(function () {
+                if (redpillToken == null) {
+                    getToken('redpill');
+                }
+                $('.input-tags').selectize({
+                    plugins: ['remove_button'],
+                    //maxItems: null,
+                    //maxOptions: null,
+                    preload: true,
+                    valueField: 'name',
+                    labelField: 'name',
+                    searchField: 'name',
+                    hideSelected: true,
+                    render: {
+                        option: function (item, escape) {
+                            return '<div><span class="name" value="' + escape(item.id) + '">' + escape(item.name) + '</span></div>';
+                        }
+                    },
+                    create: true,
+                    load: function (query, callback) {
+                        {% set url = path('api_v1_get_tags' , {'_format' : 'json'}) | raw %};
+                        $.ajax({
+                            url: '{{url}}',
+                            dataType: 'json',
+                            data: {'search': query},
+                            headers: {"Authorization": "Bearer " + redpillToken},
+                            success: function (data) {
+                                callback(data.data);
+                            }
+                        });
+                    },
+                    onItemAdd: function (value, $item) {
+                        var newVal = $('#input-tags').val() + ',' + value;
+                        $('#input-tags').attr('value', newVal);
+                    },
+                    onItemRemove: function (value) {
+                        var newVal = $('#input-tags').val().replace(',' + value, '');
+                        $('#input-tags').attr('value', newVal);
+                    }
+                });
+            });
+        </script>
+    {% endspaceless %}
+{% endblock eliberty_tags_javascript %}

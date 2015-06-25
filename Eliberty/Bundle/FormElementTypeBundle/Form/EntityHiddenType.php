@@ -15,17 +15,27 @@ class EntityHiddenType extends AbstractType
      */
     protected $objectManager;
 
+    /**
+     * @param ObjectManager $objectManager
+     */
     public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $transformer = new EntityToIdTransformer($this->objectManager, $options['class']);
         $builder->addModelTransformer($transformer);
     }
 
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
@@ -36,11 +46,17 @@ class EntityHiddenType extends AbstractType
         ;
     }
 
+    /**
+     * @return null|string|\Symfony\Component\Form\FormTypeInterface
+     */
     public function getParent()
     {
         return 'hidden';
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'eliberty_entity_hidden';
