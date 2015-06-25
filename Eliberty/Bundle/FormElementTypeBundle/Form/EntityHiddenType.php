@@ -5,9 +5,13 @@ namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Eliberty\Bundle\FormElementTypeBundle\Form\DataTransformer\EntityToIdTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * Class EntityHiddenType
+ * @package Eliberty\Bundle\FormElementTypeBundle\Form
+ */
 class EntityHiddenType extends AbstractType
 {
     /**
@@ -34,9 +38,9 @@ class EntityHiddenType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
             ->setRequired(array('class'))

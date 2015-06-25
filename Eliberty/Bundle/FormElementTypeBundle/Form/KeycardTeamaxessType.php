@@ -11,7 +11,7 @@ use Eliberty\Bundle\FormElementTypeBundle\Form\DataTransformer\SkiCardTransforme
 
 /**
  * Class KeycardTeamaxessType
- * @package Eliberty\RedpillBundle\Form\FormElementType
+ * @package Eliberty\Bundle\FormElementTypeBundle\Form
  */
 class KeycardTeamaxessType extends AbstractType
 {

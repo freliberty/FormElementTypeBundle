@@ -15,6 +15,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Eliberty\Bundle\FormElementTypeBundle\Form\DataTransformer\SkiCardTransformer;
 
+/**
+ * Class KeycardOpenType
+ * @package Eliberty\Bundle\FormElementTypeBundle\Form
+ */
 class KeycardOpenType extends AbstractType {
 
     /**

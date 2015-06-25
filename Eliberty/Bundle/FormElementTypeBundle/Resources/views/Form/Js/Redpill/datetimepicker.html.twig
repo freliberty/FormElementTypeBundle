@@ -1,6 +1,14 @@
-{% javascripts
-    '@momentjs_js'
+{% if app.request.locale |lower  == 'en' %}
+    {% javascripts
+    '@RedpillBundle/Resources/public/components/momentjs/locale/en-gb.js'
     '@ElibertyFormElementTypeBundle/Resources/public/js/boostrap-datetimepicker.js'
-%}
-<script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% else %}
+    {% javascripts
+    '@RedpillBundle/Resources/public/components/momentjs/locale/fr.js'
+    '@ElibertyFormElementTypeBundle/Resources/public/js/boostrap-datetimepicker.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endif %}

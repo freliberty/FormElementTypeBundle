@@ -3,15 +3,18 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
+/**
+ * Class ExpandedType
+ * @package Eliberty\Bundle\FormElementTypeBundle\Form
+ */
 class ExpandedType extends AbstractType
 {
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'widget' => 'expanded_widget'

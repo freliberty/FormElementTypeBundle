@@ -20,9 +20,9 @@ class TagsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'widget' => 'tags_widget'
-        ));
+        ]);
     }
 
     /**
