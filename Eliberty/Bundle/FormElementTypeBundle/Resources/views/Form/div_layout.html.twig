@@ -132,7 +132,7 @@
 {#Choice with boostrap color (danger, info , warning)#}
 {% block eliberty_bnt_choice_widget %}
     {% spaceless %}
-        <div class=" col-lg-{% if form.vars.attr.position is defined %}12{%else%}9{% endif %}">
+        <div class="{% if form.vars.attr.position is defined %}{{ form.vars.attr.position }}{% endif %}">
         <select  {{ block('widget_attributes') }}   class='selectpicker eliberty_bnt_choice_{{ id }}' data-live-search="true" data-style="btn-info" data-size="10" >
             {% for group_label, choice in choices %}
                 {% if choice is iterable %}
