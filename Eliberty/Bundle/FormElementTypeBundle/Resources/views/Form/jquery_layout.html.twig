@@ -271,7 +271,9 @@
 
             $(function () {
                 $('.eliberty_bnt_choice_{{ id }}').selectpicker();
-                $('.eliberty_bnt_choice_{{ id }}').css('width', 'inherit');
+                {% if attr.widthInherit is not defined %}
+                    $('.eliberty_bnt_choice_{{ id }}').css('width', 'inherit');
+                {% endif %}
                 {% if attr.setStyle is defined %}
                 setStyleSelect();
                 $('.eliberty_bnt_choice_{{ id }}').on('change', function (e) {
