@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Eliberty\Bundle\FormElementTypeBundle\Form\DataTransformer\SkiCardTransformer;
 
 /**
@@ -87,9 +86,7 @@ class KeycardSkidataType extends AbstractType
             ]
         );
 
-        $resolver->setNormalizers([
-            'empty_value' => $emptyValueNormalizer,
-        ]);
+        $resolver->setNormalizer('empty_value', $emptyValueNormalizer);
     }
 
     /**
