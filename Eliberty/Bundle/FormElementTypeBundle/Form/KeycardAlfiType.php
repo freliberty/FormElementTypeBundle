@@ -10,33 +10,31 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Eliberty\Bundle\FormElementTypeBundle\Form\DataTransformer\SkiCardTransformer;
 
 /**
- * Class KeycardTeamaxessType
+ * Class KeycardAlfiType
  * @package Eliberty\Bundle\FormElementTypeBundle\Form
  */
-class KeycardTeamaxessType extends AbstractType
+class KeycardAlfiType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $wtpOptions = $crcOptions = $acceptOptions = [
-            'required'             => $options['required'],
-            'label_render'         => false];
-
-        $wtpOptions['label_render'] = false;
-        $wtpOptions['attr'] = ['maxlength' => 8];
-        $crcOptions['attr'] = ['maxlength' => 3];
-        $acceptOptions['attr'] = ['maxlength' => 3];
+        $chipOptions = $baseOptions = $luhnOptions = [
+            'required'        => $options['required'],
+            'label'           => ' - '
+        ];
+        $chipOptions['label_render'] = false;
+        $chipOptions['attr'] = ['maxlength' => 5];
+        $baseOptions['attr'] = ['maxlength' => 5];
+        $luhnOptions['attr'] = ['maxlength' => 4];
 
         $builder
-            ->add('wtp', "text", $wtpOptions)
-            ->add('crc', "text", $crcOptions)
-            ->add('acceptance', "text", $acceptOptions)
+            ->add('part1', "text", $chipOptions)
+            ->add('part2', "text", $baseOptions)
+            ->add('part3', "text", $luhnOptions)
             ->addViewTransformer($this->getTransformer());
-
-
 
     }
 
@@ -45,8 +43,9 @@ class KeycardTeamaxessType extends AbstractType
      */
     public function getTransformer()
     {
-        return new SkiCardTransformer(['wtp', 'crc', 'acceptance']);
+        return new SkiCardTransformer(['part1', 'part2', 'part3']);
     }
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -66,25 +65,25 @@ class KeycardTeamaxessType extends AbstractType
                 $default = $emptyValueDefault($options);
 
                 return array_merge(
-                    ['wtp' => $default, 'crc' => $default, 'acceptance' => $default],
+                    ['part1' => $default, 'part2' => $default, 'part3' => $default],
                     $emptyValue
                 );
             }
 
             return [
-                'wtp'        => $emptyValue,
-                'crc'        => $emptyValue,
-                'acceptance' => $emptyValue
+                'part1' => $emptyValue,
+                'part2' => $emptyValue,
+                'part3' => $emptyValue
             ];
         };
 
         $resolver->setDefaults(
             [
-                'compound'          => $compound,
-                'required'          => false,
-                'empty_value'       => $emptyValue,
-                'error_bubbling'    => true,
-                'data_class'        => null
+                'compound'       => $compound,
+                'required'       => false,
+                'empty_value'    => $emptyValue,
+                'error_bubbling' => true,
+                'data_class'     => null
             ]
         );
 
@@ -96,7 +95,7 @@ class KeycardTeamaxessType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_keycard_teamaxess';
+        return 'eliberty_keycard_alfi';
     }
 
 }

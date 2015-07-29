@@ -45,6 +45,9 @@ services:
     eliberty.form.type.keycard.teamaxess:
             class: Eliberty\Bundle\FormElementTypeBundle\Form\KeycardTeamaxessType
             tags: [{ name: form.type, alias: eliberty_keycard_teamaxess }]
+    eliberty.form.type.keycard.alfi:
+            class: Eliberty\Bundle\FormElementTypeBundle\Form\KeycardAlfiType
+            tags: [{ name: form.type, alias: eliberty_keycard_alfi }]
     eliberty.form.type.keycard.open:
             class: Eliberty\Bundle\FormElementTypeBundle\Form\KeycardOpenType
             tags: [{ name: form.type, alias: eliberty_keycard_open }]

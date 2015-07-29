@@ -87,9 +87,7 @@ class KeycardSkidataType extends AbstractType
             ]
         );
 
-        $resolver->setNormalizers([
-            'empty_value' => $emptyValueNormalizer,
-        ]);
+        $resolver->setNormalizer('empty_value', $emptyValueNormalizer);
     }
 
     /**

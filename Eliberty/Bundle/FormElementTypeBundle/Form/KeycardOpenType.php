@@ -88,9 +88,7 @@ class KeycardOpenType extends AbstractType {
             ]
         );
 
-        $resolver->setNormalizers([
-            'empty_value' => $emptyValueNormalizer,
-        ]);
+        $resolver->setNormalizer('empty_value', $emptyValueNormalizer);
     }
 
     /**

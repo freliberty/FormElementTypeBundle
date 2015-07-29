@@ -328,6 +328,23 @@
         </div>
     {% endspaceless %}
 {% endblock eliberty_keycard_skidata_widget %}
+
+{% block eliberty_keycard_alfi_widget %}
+    {% spaceless %}
+        <div class="row alfi_keycard no-margin">
+            <div class="col-xs-{% if form.vars.attr.firstDiv is defined %}{{form.vars.attr.firstDiv}}{% else %}3{% endif %} no-padding-left part1">
+                {{ form_widget(form.part1) }}
+            </div>
+            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}3 col-xs-offset-1{% endif %} no-padding key-center part2">
+                {{ form_widget(form.part2) }}
+            </div>
+            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}3 col-xs-offset-1 {% endif %}  no-padding-right pull-right part3">
+                {{ form_widget(form.part3) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_keycard_alfi_widget %}
+
 {% block eliberty_keycard_teamaxess_widget %}
     {% spaceless %}
         <div class="row teamaxess_keycard">
