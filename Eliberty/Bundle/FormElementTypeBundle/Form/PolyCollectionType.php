@@ -7,7 +7,6 @@
 
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
-
 use Eliberty\RedpillBundle\Form\EventListener\ResizePolyFormListener;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -159,9 +158,7 @@ class PolyCollectionType extends AbstractType
             'types' => 'array'
         ]);
 
-        $resolver->setNormalizers([
-            'options' => $optionsNormalizer,
-        ]);
+        $resolver->setNormalizer('empty_value', $emptyValueNormalizer);
     }
 
     /**
