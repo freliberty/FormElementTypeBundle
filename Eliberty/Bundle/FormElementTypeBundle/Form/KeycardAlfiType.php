@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Eliberty\Bundle\FormElementTypeBundle\Form\DataTransformer\SkiCardTransformer;
 
 /**
@@ -21,19 +20,19 @@ class KeycardAlfiType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $chipOptions = $baseOptions = $luhnOptions = [
+        $part1Options = $part2Options = $part3Options = [
             'required'        => $options['required'],
             'label'           => ' - '
         ];
-        $chipOptions['label_render'] = false;
-        $chipOptions['attr'] = ['maxlength' => 5];
-        $baseOptions['attr'] = ['maxlength' => 5];
-        $luhnOptions['attr'] = ['maxlength' => 4];
+        $part1Options['label_render'] = false;
+        $part1Options['attr'] = ['maxlength' => 5];
+        $part2Options['attr'] = ['maxlength' => 5];
+        $part3Options['attr'] = ['maxlength' => 4];
 
         $builder
-            ->add('part1', "text", $chipOptions)
-            ->add('part2', "text", $baseOptions)
-            ->add('part3', "text", $luhnOptions)
+            ->add('part1', "text", $part1Options)
+            ->add('part2', "text", $part2Options)
+            ->add('part3', "text", $part3Options)
             ->addViewTransformer($this->getTransformer());
 
     }

@@ -35,8 +35,6 @@ class KeycardTeamaxessType extends AbstractType
             ->add('acceptance', "text", $acceptOptions)
             ->addViewTransformer($this->getTransformer());
 
-
-
     }
 
     /**
