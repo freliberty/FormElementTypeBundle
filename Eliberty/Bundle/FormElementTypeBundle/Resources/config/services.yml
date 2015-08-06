@@ -3,6 +3,9 @@ parameters:
 
 services:
 
+    eliberty.form.type.checkboxtogle:
+        class: Eliberty\Bundle\FormElementTypeBundle\Form\CheckboxToggleType
+        tags: [{ name: form.type, alias: eliberty_checkboxtoggle }]
     eliberty.form.type.boolean:
         class: Eliberty\Bundle\FormElementTypeBundle\Form\BooleanType
         tags: [{ name: form.type, alias: eliberty_boolean }]
