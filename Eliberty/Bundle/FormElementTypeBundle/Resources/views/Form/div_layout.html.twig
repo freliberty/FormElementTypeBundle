@@ -16,7 +16,7 @@
         {% else %} false {% endif %} {{className}}">
                 <div class="inset {{className}}">
                     <div class="control {{className}}">
-                        <input type="hidden"  {{ block('widget_attributes') }}  value="{% if value is not empty %}{% if value == 1 %}true{% elseif value == 0 and value != 'true' %}false{% else %}{{ value }}{% endif %}{% else %}false{% endif %}" class="form-control">
+                        <input type="checkbox"  {{ block('widget_attributes') }}  value="{% if value is not empty %}{% if value == 1 %}true{% elseif value == 0 and value != 'true' %}false{% else %}{{ value }}{% endif %}{% else %}false{% endif %}" class="form-control" data-toggle="toggle">
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
         {% else %} true {% endif %} {{className}}">
                 <div class="inset {{className}}">
                     <div class="control {{className}}">
-                        <input type="hidden"  {{ block('widget_attributes') }}  value="{% if value is not empty %}{% if value == 1 %}true{% elseif value == 0 and value != 'true' %}false{% else %}{{ value }}{% endif %}{% else %}false{% endif %}" class="form-control">
+                        <input type="checkbox"  {{ block('widget_attributes') }}  value="{% if value is not empty %}{% if value == 1 %}true{% elseif value == 0 and value != 'true' %}false{% else %}{{ value }}{% endif %}{% else %}false{% endif %}" class="form-control" data-toggle="toggle">
                     </div>
                 </div>
             </div>

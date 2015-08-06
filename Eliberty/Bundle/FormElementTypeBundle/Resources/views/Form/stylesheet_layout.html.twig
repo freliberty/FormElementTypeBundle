@@ -1,9 +1,7 @@
 {% block eliberty_boolean_stylesheet %}
-{% spaceless %}
-        {% stylesheets '@ElibertyFormElementTypeBundle/Resources/public/css/bool_form.css' %}
-            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-        {% endstylesheets %}
-{% endspaceless %}
+    {% spaceless %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':bootstrap-toggle.html.twig' %}
+    {% endspaceless %}
 {% endblock eliberty_boolean_stylesheet %}
 
 {% block eliberty_markdown_editor_stylesheet %}

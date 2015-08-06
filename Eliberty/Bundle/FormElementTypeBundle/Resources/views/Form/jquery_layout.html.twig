@@ -2,22 +2,9 @@
     {% spaceless %}
         {% set entityName = getEntityName(form.parent.vars.data) %}
         {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id %}
-        <script type="text/javascript">
-            $(function () {
-                'use strict';
-                $('.{{className}}').click(function () {
-                    if (!$(this).parent().parent().hasClass('disabled')) {
-                        if ($(this).parent().parent().hasClass('true')) {
-                            $(this).parent().parent().addClass('false').removeClass('true');
-                            $(this).children().attr('value', 'false');
-                        } else {
-                            $(this).children().attr('value', 'true');
-                            $(this).parent().parent().addClass('true').removeClass('false');
-                        }
-                    }
-                });
-            });
-        </script>
+        {% if attr.withoutJsFile is not defined %}
+            {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':bootstrap-toggle.html.twig' %}
+        {% endif %}
     {% endspaceless %}
 {% endblock eliberty_boolean_javascript %}
 
