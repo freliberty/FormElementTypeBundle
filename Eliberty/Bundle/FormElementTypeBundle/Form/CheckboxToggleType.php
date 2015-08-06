@@ -3,8 +3,10 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -24,6 +26,14 @@ class CheckboxToggleType extends AbstractType
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->set('data-toggle', $form->getAttribute('data-toggle'));
+    }
+
+    /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -38,7 +48,7 @@ class CheckboxToggleType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return 'checkbox';
     }
 
     /**
