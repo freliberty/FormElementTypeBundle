@@ -1,11 +1,6 @@
-{% set tplList = [] %}
-
 {% block eliberty_checkboxtoggle_stylesheet %}
     {% spaceless %}
-        {% if not 'eliberty_checkboxtoggle_stylesheet' in tplList %}
-            {% set tplList = tplList|merge (['eliberty_checkboxtoggle_stylesheet']) %}
         {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':bootstrap-toggle.html.twig' %}
-        {% endif %}
     {% endspaceless %}
 {% endblock eliberty_checkboxtoggle_stylesheet %}
 
