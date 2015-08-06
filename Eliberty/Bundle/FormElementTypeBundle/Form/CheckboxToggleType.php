@@ -30,7 +30,7 @@ class CheckboxToggleType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['data-toggle'] = $form->getAttribute('data-toggle');
+        $view->vars['data-toggle'] = $form->getConfig()->getAttribute('data-toggle');
     }
 
     /**
