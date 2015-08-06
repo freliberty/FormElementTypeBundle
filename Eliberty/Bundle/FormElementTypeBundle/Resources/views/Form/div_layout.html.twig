@@ -1,4 +1,19 @@
 {#boolean#}
+{% block eliberty_checkboxtoggle_widget %}
+    {% spaceless %}
+        {% set entityName = getEntityName(form.parent.vars.data) %}
+        {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id  %}
+        <div class="{% if form.vars.attr.inline is defined and form.vars.attr.inline == 'true' %}col-lg-6 padding-left-20{% endif %}">
+            <div class="{{className}}">
+                <div class="inset {{className}}">
+                    <div class="control {{className}}">
+                        <input type="checkbox"  {{ block('widget_attributes') }}  value="{{ value }}" data-toggle="{{ data-toggle }}" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_checkboxtoggle_widget %}{#boolean#}
 {% block eliberty_boolean_widget %}
     {% spaceless %}
         {% set entityName = getEntityName(form.parent.vars.data) %}
