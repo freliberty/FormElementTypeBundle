@@ -29,10 +29,8 @@
         {% set entityName = getEntityName(form.parent.vars.data) %}
         {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id  %}
         <div class="input-group {%- if not horizontal %} class="checkbox-inline"{% endif %}>">
-            <div class="{{className}}">
-                <div class="control {{className}}">
-                    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} data-size="min" data-inverse="{{ inverse }}"/>
-                </div>
+            <div class="control {{className}}">
+                <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} data-size="min" data-inverse="{{ inverse }}"/>
             </div>
         </div>
     {% endspaceless %}
