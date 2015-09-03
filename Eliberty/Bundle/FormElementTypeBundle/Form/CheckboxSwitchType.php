@@ -28,10 +28,10 @@ class CheckboxSwitchType extends AbstractType
         $isRadioAllOff = array_key_exists('radioalloff', $options) && $options['radioalloff'] ? 'true' :'false';
         $size      = array_key_exists('size', $options) && in_array(strtolower($options['size']), ['mini', 'small', 'normal', 'large'])
             ? strtolower($options['size'])
-            : null;
+            : 'mini';
         $onColor   = array_key_exists('oncolor', $options) && in_array(strtolower($options['oncolor']), ['primary', 'info', 'success', 'warning', 'danger', 'default'])
             ? strtolower($options['oncolor'])
-            : 'default';
+            : 'primary';
         $offColor  = array_key_exists('offcolor', $options) && in_array(strtolower($options['offcolor']), ['primary', 'info', 'success', 'warning', 'danger', 'default'])
             ? strtolower($options['offcolor'])
             : 'default';
