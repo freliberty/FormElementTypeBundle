@@ -6,6 +6,9 @@ services:
     eliberty.form.type.checkboxtoggle:
         class: Eliberty\Bundle\FormElementTypeBundle\Form\CheckboxToggleType
         tags: [{ name: form.type, alias: eliberty_checkboxtoggle }]
+    eliberty.form.type.fieldset:
+        class: Eliberty\Bundle\FormElementTypeBundle\Form\FieldsetType
+        tags: [{ name: form.type, alias: eliberty_fieldset }]
     eliberty.form.type.checkboxswitch:
         class: Eliberty\Bundle\FormElementTypeBundle\Form\CheckboxSwitchType
         tags: [{ name: form.type, alias: eliberty_checkboxswitch }]
