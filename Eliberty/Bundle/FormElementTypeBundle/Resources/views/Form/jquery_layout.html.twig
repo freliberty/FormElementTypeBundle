@@ -1,3 +1,13 @@
+{% block eliberty_checkboxswitch_javascript %}
+    {% spaceless %}
+        {% set entityName = getEntityName(form.parent.vars.data) %}
+        {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id %}
+        {% if attr.withoutJsFile is not defined %}
+            {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':bootstrap-switch.html.twig' %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock eliberty_checkboxswitch_javascript %}
+
 {% block eliberty_checkboxtoggle_javascript %}
     {% spaceless %}
         {% set entityName = getEntityName(form.parent.vars.data) %}
@@ -7,6 +17,7 @@
         {% endif %}
     {% endspaceless %}
 {% endblock eliberty_checkboxtoggle_javascript %}
+
 {% block eliberty_boolean_javascript %}
     {% spaceless %}
         {% set entityName = getEntityName(form.parent.vars.data) %}

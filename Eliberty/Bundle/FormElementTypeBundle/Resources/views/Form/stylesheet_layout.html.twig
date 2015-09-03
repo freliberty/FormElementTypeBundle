@@ -1,3 +1,9 @@
+{% block eliberty_checkboxswitch_stylesheet %}
+    {% spaceless %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':bootstrap-switch.html.twig' %}
+    {% endspaceless %}
+{% endblock eliberty_checkboxswitch_stylesheet %}
+
 {% block eliberty_checkboxtoggle_stylesheet %}
     {% spaceless %}
         {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':bootstrap-toggle.html.twig' %}
