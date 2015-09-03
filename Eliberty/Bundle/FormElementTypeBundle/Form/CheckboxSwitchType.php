@@ -40,7 +40,7 @@ class CheckboxSwitchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'widget' => 'checkboxswitch_widget'
+            'widget' => 'checkbox_widget'
         ]);
     }
 
