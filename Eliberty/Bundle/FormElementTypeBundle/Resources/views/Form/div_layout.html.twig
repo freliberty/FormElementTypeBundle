@@ -26,6 +26,7 @@
 {% endblock eliberty_checkboxswitch_label %}
 {% block eliberty_checkboxswitch_widget %}
     {% spaceless %}
+        {% set entityName = getEntityName(form.parent.vars.data) %}
         {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id  %}
         <div class="input-group {%- if not horizontal %} class="checkbox-inline"{% endif %}>">
             <div class="{{className}}">
