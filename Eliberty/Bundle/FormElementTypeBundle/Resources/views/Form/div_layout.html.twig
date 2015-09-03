@@ -30,7 +30,7 @@
         {% set className = entityName ~ '_' ~ form.vars.name ~ '_' ~ form.vars.id  %}
         <div class="input-group {%- if not horizontal %} class="checkbox-inline"{% endif %}>">
             <div class="control {{className}}">
-                <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} data-size="min" data-inverse="{{ inverse }}" data-switch="switch" />
+                <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} class="form-control" data-size="{{ dataSize }}" data-inverse="{{ dataInverse }}" data-switch="switch" data-indeterminate="{{ dataIndeterminate }}" data-animate="{{ dataAnimate }}" data-radio-all-off="{{ dataRadioAllOff }}" data-on-color="{{ dataOnColor }}" data-off-color="{{ dataOffColor }}" data-on-text="{{ dataOnText }}" data-off-text="{{ dataOffText }}" />
             </div>
         </div>
     {% endspaceless %}
