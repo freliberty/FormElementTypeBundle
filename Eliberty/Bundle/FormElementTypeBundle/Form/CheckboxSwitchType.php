@@ -22,10 +22,10 @@ class CheckboxSwitchType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $isInverse = array_key_exists('inverse', $options) && $options['inverse'] ? 'true' :'false';
-        $isIndeterminate = array_key_exists('indeterminate', $options) && $options['indeterminate'] ? 'true' :'false';
-        $isAnimate = array_key_exists('animate', $options) && $options['animate'] ? 'true' :'false';
-        $isRadioAllOff = array_key_exists('radioalloff', $options) && $options['radioalloff'] ? 'true' :'false';
+        $isInverse = array_key_exists('inverse', $options) && $options['inverse'] ? true :false;
+        $isIndeterminate = array_key_exists('indeterminate', $options) && $options['indeterminate'] ? true :false;
+        $isAnimate = array_key_exists('animate', $options) && $options['animate'] ? true : false;
+        $isRadioAllOff = array_key_exists('radioalloff', $options) && $options['radioalloff'] ? true : false;
         $size      = array_key_exists('size', $options) && in_array(strtolower($options['size']), ['mini', 'small', 'normal', 'large'])
             ? strtolower($options['size'])
             : 'mini';
@@ -71,7 +71,16 @@ class CheckboxSwitchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'widget' => 'checkboxswitch_widget'
+            'widget'        => 'checkboxswitch_widget',
+            'inverse'       => false,
+            'indeterminate' => false,
+            'animate'       => true,
+            'radioalloff'   => false,
+            'size'          => 'mini',
+            'oncolor'       => 'primary',
+            'offcolor'      => 'default',
+            'ontext'        => 'ON',
+            'offtext'       => 'OFF',
         ]);
     }
 
