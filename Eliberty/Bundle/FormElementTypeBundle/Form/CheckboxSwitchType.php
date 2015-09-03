@@ -23,7 +23,7 @@ class CheckboxSwitchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $isInverse = array_key_exists('inverse', $options) && $options['inverse'] ? 'true' :'false';
-        $builder->setAttribute('data-inverse', $isInverse);
+        $builder->setAttribute('inverse', $isInverse);
     }
 
     /**
@@ -31,7 +31,7 @@ class CheckboxSwitchType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['data-inverse'] = $form->getConfig()->getAttribute('data-inverse');
+        $view->vars['inverse'] = $form->getConfig()->getAttribute('inverse');
     }
 
     /**
