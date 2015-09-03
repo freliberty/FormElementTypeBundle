@@ -428,3 +428,14 @@
         </div>
     {% endspaceless %}
 {% endblock eliberty_keycard_open_widget %}
+
+
+{# fieldset#}
+{% block eliberty_fieldset_widget %}
+    {% spaceless %}
+        <fieldset {{ block('widget_container_attributes') }}>
+            {% if title is defined %}<legend>{{ title|trans({}, translation_domain)|raw }}</legend>{% endif %}
+            {{ form_widget(form) }}
+        </fieldset>
+    {% endspaceless %}
+{% endblock eliberty_fieldset_widget %}
