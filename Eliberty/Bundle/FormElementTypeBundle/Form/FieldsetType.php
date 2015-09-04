@@ -35,11 +35,11 @@ class FieldsetType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm ( FormBuilderInterface $builder, array $options )
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ( !empty($options['subforms']) ) {
-            foreach ( $options['subforms'] as $f ) {
-                $builder->add($f['name'],$f['type'],$f['attr']);
+        if (!empty($options['subforms'])) {
+            foreach ($options['subforms'] as $f) {
+                $builder->add($f['name'], $f['type'], $f['attr']);
             }
         }
     }
@@ -47,9 +47,9 @@ class FieldsetType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView ( FormView $view, FormInterface $form, array $options )
+    public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        if ( array_key_exists('title', $options) && $options['title'] !== false ) {
+        if ($options['title'] !== false) {
             $view->vars['title'] = $options['title'];
         }
     }
@@ -57,7 +57,8 @@ class FieldsetType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName() {
+    public function getName()
+    {
         return 'eliberty_fieldset';
     }
 }
