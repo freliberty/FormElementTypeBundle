@@ -1,7 +1,7 @@
 {#checkboxswitch#}
 {% block eliberty_checkboxswitch_label %}
 {% spaceless %}
-    {% if label is not sameas(false) and label is empty %}
+    {% if label is not same as(false) and label is empty %}
         {%- if label_format is defined and label_format is not empty -%}
             {% set label = label_format|replace({
             '%name%': name,

@@ -364,11 +364,11 @@
 
                         //set the language
                         JSONEditor.defaults.language = '{{ app.request.locale }}';
-                        {% raw %}
+                        {% verbatim %}
                         JSONEditor.defaults.languages.fr = {
                             error_minLength: "La valeur doit être au moins {{0}} caractères!"
                         };
-                        {% endraw %}
+                        {% endverbatim %}
 
                         window.jsonEditor_{{ id }} = jsonEditor_{{ id }};
 
