@@ -514,3 +514,57 @@
         </script>
     {% endspaceless %}
 {% endblock eliberty_tags_javascript %}
+
+
+{% block eliberty_phonenumber_javascript %}
+    {% spaceless %}
+        {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':phonenumber.html.twig' %}
+        <script type="text/javascript">
+            $(function () {
+                var input = $('#{{ id }}');
+                var numberType = {% if attr.numberType is defined and attr.numberType %}'{{ attr.numberType }}'{% else %}"MOBILE"{% endif %};
+                var initialCountry = {% if attr.initialCountry is defined and attr.initialCountry %}'{{ attr.initialCountry }}'{% else %}''{% endif %};
+
+                input.intlTelInput({
+                    allowExtensions: false,
+                    autoFormat: true,
+                    autoPlaceholder: true,
+                    numberType: numberType,
+                    initialCountry: initialCountry,
+                    preferredCountries: [initialCountry, 'fr'],
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/7.1.1/lib/libphonenumber/build/utils.js"
+                });
+
+                input.addClass('form-control');
+
+                setTimeout( function() {  checkCardNumber($('#{{ id }}')); }, 5000);
+
+                input.bind("change paste keyup", function() {
+                    checkCardNumber($('#{{ id }}'));
+                });
+
+                input.closest("form").submit(function() {
+                    input.val(input.intlTelInput("getNumber"));
+                });
+            });
+
+            /**
+             * Check the validity of phone number
+             * @param input
+             */
+            function checkCardNumber(input)
+            {
+                var icon = input.parent().next('i');
+                icon.removeClass('fa-check fa-exclamation-triangle');
+
+                if (input.intlTelInput("getNumber")) {
+                    if (input.intlTelInput("isValidNumber")) {
+                        icon.addClass('fa-check').css('color', 'green');
+                    } else {
+                        icon.addClass('fa-exclamation-triangle').css('color', 'red');
+                    }
+                }
+            }
+        </script>
+    {% endspaceless %}
+{% endblock eliberty_phonenumber_javascript %}

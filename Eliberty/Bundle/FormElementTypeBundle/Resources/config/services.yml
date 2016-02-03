@@ -88,5 +88,9 @@ services:
         class: Eliberty\Bundle\FormElementTypeBundle\Form\ColorPickerType
         tags: [{ name: form.type, alias: eliberty_colorpicker }]
 
+    eliberty.form.type.phonenumber:
+        class: Eliberty\Bundle\FormElementTypeBundle\Form\PhoneNumberType
+        tags: [{ name: form.type, alias: eliberty_phonenumber }]
+
 
 

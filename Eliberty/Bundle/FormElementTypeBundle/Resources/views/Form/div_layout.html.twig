@@ -439,3 +439,9 @@
         </fieldset>
     {% endspaceless %}
 {% endblock eliberty_fieldset_widget %}
+
+{% block eliberty_phonenumber_widget %}
+    {% spaceless %}
+        <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="form-control" >&nbsp;&nbsp;<i class="fa fa-2x"></i>
+    {% endspaceless %}
+{% endblock eliberty_phonenumber_widget %}
