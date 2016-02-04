@@ -442,6 +442,14 @@
 
 {% block eliberty_phonenumber_widget %}
     {% spaceless %}
-        <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="form-control" >&nbsp;&nbsp;<i class="fa fa-2x"></i>
+        {% if form.vars.attr.icon is defined %}
+            <div class="input-group">
+                <span class="input-group-addon" style="display: none;"><span class="glyphicon glyphicon-phone-alt"></span></span>
+        {% endif %}
+        <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="form-control" ><i class="phone-checker fa fa-2x"></i>
+
+        {% if form.vars.attr.icon is defined %}
+            </div>
+        {% endif %}
     {% endspaceless %}
 {% endblock eliberty_phonenumber_widget %}

@@ -524,6 +524,7 @@
                 var input = $('#{{ id }}');
                 var numberType = {% if attr.numberType is defined and attr.numberType %}'{{ attr.numberType }}'{% else %}"MOBILE"{% endif %};
                 var initialCountry = {% if attr.initialCountry is defined and attr.initialCountry %}'{{ attr.initialCountry }}'{% else %}''{% endif %};
+                var useIcon = {% if attr.icon is defined and attr.icon %}true{% else %}false{% endif %};
 
                 input.intlTelInput({
                     allowExtensions: false,
@@ -535,18 +536,46 @@
                     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/7.1.1/lib/libphonenumber/build/utils.js"
                 });
 
+                // Add class which is removed after JS executing
                 input.addClass('form-control');
 
-                setTimeout( function() {  checkCardNumber($('#{{ id }}')); }, 5000);
+                // Init icon
+                if (useIcon) {
+                    initIcon(input, '{{ attr.icon }}');
+                }
 
+                // Check number on load
+                setTimeout( function() { checkCardNumber(input); }, 5000);
+
+                // On change, check that number is valid or not
                 input.bind("change paste keyup", function() {
-                    checkCardNumber($('#{{ id }}'));
+                    checkCardNumber(input);
                 });
 
+                // On submit, change number to international format
                 input.closest("form").submit(function() {
                     input.val(input.intlTelInput("getNumber"));
                 });
             });
+
+            /**
+             * Initialize icon zone
+             **/
+            function initIcon(input, icon)
+            {
+                var parent = input.parent().parent();
+                var inputGroupAddon = parent.find('span.input-group-addon');
+
+                // Display parent span
+                inputGroupAddon.show();
+
+                // Remove old glyphicons
+                var glyphicon = parent.find('span.glyphicon');
+                glyphicon.removeClass('glyphicon-phone glyphicon-phone-alt');
+
+                // Add desired glyphicon
+                glyphicon.addClass(icon);
+            }
 
             /**
              * Check the validity of phone number
@@ -554,10 +583,13 @@
              */
             function checkCardNumber(input)
             {
+                // Remove old icons
                 var icon = input.parent().next('i');
                 icon.removeClass('fa-check fa-exclamation-triangle');
 
+                // If we have a number defined
                 if (input.intlTelInput("getNumber")) {
+                    // If number is valid
                     if (input.intlTelInput("isValidNumber")) {
                         icon.addClass('fa-check').css('color', 'green');
                     } else {
