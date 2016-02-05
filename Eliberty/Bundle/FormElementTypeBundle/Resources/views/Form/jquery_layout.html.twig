@@ -524,7 +524,7 @@
                 var input = $('#{{ id }}');
                 var numberType = {% if attr.numberType is defined and attr.numberType %}'{{ attr.numberType }}'{% else %}"MOBILE"{% endif %};
                 var initialCountry = {% if attr.initialCountry is defined and attr.initialCountry %}'{{ attr.initialCountry }}'{% else %}''{% endif %};
-                var useIcon = {% if attr.icon is defined and attr.icon %}true{% else %}false{% endif %};
+                var icon = {% if attr.icon is defined and attr.icon %}'{{ attr.icon }}'{% else %}null{% endif %};
 
                 input.intlTelInput({
                     allowExtensions: false,
@@ -540,8 +540,8 @@
                 input.addClass('form-control');
 
                 // Init icon
-                if (useIcon) {
-                    initIcon(input, '{{ attr.icon }}');
+                if (icon !== null) {
+                    initIcon(input, icon);
                 }
 
                 // Check number on load
@@ -554,7 +554,7 @@
 
                 // On submit, change number to international format
                 input.closest("form").submit(function() {
-                    input.val(input.intlTelInput("getNumber"));
+                    $('#{{ id }}[type=hidden]').val(input.intlTelInput("getNumber"));
                 });
             });
 
