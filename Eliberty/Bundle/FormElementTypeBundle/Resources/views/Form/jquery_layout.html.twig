@@ -523,8 +523,9 @@
             $(function () {
                 var input = $('#{{ id }}');
                 var numberType = {% if attr.numberType is defined and attr.numberType %}'{{ attr.numberType }}'{% else %}"MOBILE"{% endif %};
-                var initialCountry = {% if attr.initialCountry is defined and attr.initialCountry %}'{{ attr.initialCountry }}'{% else %}''{% endif %};
+                var initialCountry = {% if attr.initialCountry is defined and attr.initialCountry %}'{{ attr.initialCountry }}'{% else %}'fr'{% endif %};
                 var icon = {% if attr.icon is defined and attr.icon %}'{{ attr.icon }}'{% else %}null{% endif %};
+                var displayAsterisk = {% if render_required_asterisk is defined and render_required_asterisk %}true{% else %}false{% endif %};
 
                 input.intlTelInput({
                     allowExtensions: false,
@@ -532,7 +533,7 @@
                     autoPlaceholder: true,
                     numberType: numberType,
                     initialCountry: initialCountry,
-                    preferredCountries: [initialCountry, 'fr'],
+                    preferredCountries: [initialCountry],
                     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/7.1.1/lib/libphonenumber/build/utils.js"
                 });
 
@@ -544,8 +545,10 @@
                     initIcon(input, icon);
                 }
 
+                initAsterisk(input, displayAsterisk);
+
                 // Check number on load
-                setTimeout( function() { checkCardNumber(input); }, 5000);
+                setTimeout( function() { checkCardNumber(input); }, 4000);
 
                 // On change, check that number is valid or not
                 input.bind("change paste keyup", function() {
@@ -557,6 +560,17 @@
                     $('#{{ id }}[type=hidden]').val(input.intlTelInput("getNumber"));
                 });
             });
+
+            /**
+             * Display or not asterisk field
+             **/
+            function initAsterisk(input, displayAsterisk)
+            {
+                // Display asterisk
+                if (displayAsterisk) {
+                    input.parent().parent().find('span.phone-asterisk').show();
+                }
+            }
 
             /**
              * Initialize icon zone
@@ -584,7 +598,7 @@
             function checkCardNumber(input)
             {
                 // Remove old icons
-                var icon = input.parent().next('i');
+                var icon = input.parent().parent().find('span.phone-checker');
                 icon.removeClass('fa-check fa-exclamation-triangle');
 
                 // If we have a number defined
