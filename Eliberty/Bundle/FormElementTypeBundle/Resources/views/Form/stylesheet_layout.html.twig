@@ -75,6 +75,18 @@
     {% endspaceless %}
 {% endblock eliberty_tags_stylesheet %}
 
+{% block eliberty_expanded_widget %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }} class="btn-group" data-toggle="buttons">
+            {% for child in form %}
+                <label class="btn btn-primary {% if child.vars.checked == 1 %} active {% endif %}">
+                    <input type="radio" {{ block('widget_attributes') }}{% if child.vars.value is defined %} value="{{ child.vars.value }}"{% endif %}{% if child.vars.checked %} checked="checked"{% endif %} />{{ child.vars.label|trans }}
+                </label>
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_expanded_widget %}
+
 {% block eliberty_phonenumber_stylesheet %}
     {% spaceless %}
         {% include 'ElibertyFormElementTypeBundle:Form/Css/' ~ formelementtypemode ~':phonenumber.html.twig' %}
