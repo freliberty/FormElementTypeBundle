@@ -526,12 +526,12 @@
                 var initialCountry = {% if attr.initialCountry is defined and attr.initialCountry %}'{{ attr.initialCountry }}'{% else %}'fr'{% endif %};
                 var icon = {% if attr.icon is defined and attr.icon %}'{{ attr.icon }}'{% else %}null{% endif %};
                 var displayAsterisk = {% if render_required_asterisk is defined and render_required_asterisk %}true{% else %}false{% endif %};
-                var autoPlaceholder = {% if attr.autoPlaceholder is defined %}{{ attr.autoPlaceholder }}{% else %}true{% endif %};
+                var autoPlaceHolder = {% if attr.autoPlaceHolder is defined %}Boolean({{ attr.autoPlaceHolder }}){% else %}true{% endif %};
 
                 input.intlTelInput({
                     allowExtensions: false,
                     autoFormat: true,
-                    autoPlaceholder: autoPlaceholder,
+                    autoPlaceholder: autoPlaceHolder,
                     numberType: numberType,
                     initialCountry: initialCountry,
                     preferredCountries: [initialCountry],
