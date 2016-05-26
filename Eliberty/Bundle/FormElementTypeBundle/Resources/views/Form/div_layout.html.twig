@@ -439,3 +439,23 @@
         </fieldset>
     {% endspaceless %}
 {% endblock eliberty_fieldset_widget %}
+
+{% block eliberty_phonenumber_widget %}
+    {% spaceless %}
+        {% if form.vars.attr.icon is defined %}
+            <div class="input-group">
+                <span class="input-group-addon" style="display: none;"><span class="glyphicon"></span></span>
+        {% endif %}
+        <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="form-control">
+        <div class="phone-icon-elements">
+            <span class="phone-checker phone-icon fa fa-2x form-control-feedback withoutprepend"></span>
+            <span class="phone-asterisk phone-icon fa fa-asterisk form-control-feedback withoutprepend" style="display: none;"></span>
+        </div>
+
+        <input type="hidden" value="{{ value }}" {{ block('widget_attributes') }}>
+
+        {% if form.vars.attr.icon is defined %}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock eliberty_phonenumber_widget %}

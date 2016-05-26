@@ -38,7 +38,7 @@ class EntityToIdTransformer implements DataTransformerInterface
      */
     public function transform($entity)
     {
-        if (null === $entity) {
+        if (null === $entity || !is_object($entity) || !method_exists($entity, 'getId')) {
             return;
         }
 
@@ -48,6 +48,7 @@ class EntityToIdTransformer implements DataTransformerInterface
     /**
      * @param mixed $id
      * @return mixed|null|object
+     * @throws TransformationFailedException
      */
     public function reverseTransform($id)
     {
