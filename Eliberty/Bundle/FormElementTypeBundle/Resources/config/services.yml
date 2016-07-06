@@ -66,6 +66,9 @@ services:
     eliberty.form.type.integer:
         class: Eliberty\Bundle\FormElementTypeBundle\Form\IntegerType
         tags: [{ name: form.type, alias: eliberty_integer }]
+    eliberty.form.type.textmask:
+        class: Eliberty\Bundle\FormElementTypeBundle\Form\TextMaskType
+        tags: [{ name: form.type, alias: eliberty_textmask }]
     eliberty.form.type.decimal:
         class: Eliberty\Bundle\FormElementTypeBundle\Form\DecimalType
         tags: [{ name: form.type, alias: eliberty_decimal }]

@@ -459,3 +459,11 @@
         {% endif %}
     {% endspaceless %}
 {% endblock eliberty_phonenumber_widget %}
+
+
+
+{% block eliberty_textmask_widget %}
+    {% spaceless %}
+        <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="form-control">
+    {% endspaceless %}
+{% endblock eliberty_textmask_widget %}
