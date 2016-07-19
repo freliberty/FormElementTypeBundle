@@ -575,6 +575,8 @@
              * Display or not asterisk field
              **/
             function initAsterisk(input, displayAsterisk) {
+                input.parent().parent().find('span.phone-asterisk').hide();
+
                 // Display asterisk
                 if (displayAsterisk) {
                     input.parent().parent().find('span.phone-asterisk').show();
