@@ -526,6 +526,7 @@
 {% block eliberty_phonenumber_javascript %}
     {% spaceless %}
         {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':phonenumber.html.twig' %}
+        {% set utilsScript = asset('bundles/' ~ formelementtypemode|lower ~ '/components/home24-intl-tel-input/lib/libphonenumber/build/utils.js') %}
         <script type="text/javascript">
             $(function () {
                 var input = $('#{{ id }}');
@@ -542,7 +543,7 @@
                     numberType: customNumberType,
                     initialCountry: defaultCountry,
                     preferredCountries: [defaultCountry],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/7.1.1/lib/libphonenumber/build/utils.js"
+                    utilsScript: '{{ utilsScript }}'
                 });
 
                 // Add class which is removed after JS executing
