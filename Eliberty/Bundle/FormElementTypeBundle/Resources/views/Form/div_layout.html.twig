@@ -400,19 +400,19 @@
 
 {% block eliberty_keycard_teamaxess_widget %}
     {% spaceless %}
-        <div class="row teamaxess_keycard">
-            <div class="col-xs-6 no-padding wtp">
+
+        <div class="row teamaxess_keycard no-margin">
+            <div class="col-xs-{% if form.vars.attr.firstDiv is defined %}{{form.vars.attr.firstDiv}}{% else %}8{% endif %} no-padding-left wtp">
                 {{ form_widget(form.wtp) }}
             </div>
-            <div class="col-xs-1 no-padding"> </div>
-            <div class="col-xs-2 no-padding crc">
+            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}2{% endif %} no-padding key-center crc">
                 {{ form_widget(form.crc) }}
             </div>
-            <div class="col-xs-1 no-padding"> </div>
-            <div class="col-xs-2 no-padding acceptance">
+            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}2{% endif %}  no-padding-right pull-right acceptance">
                 {{ form_widget(form.acceptance) }}
             </div>
         </div>
+
     {% endspaceless %}
 {% endblock eliberty_keycard_teamaxess_widget %}
 {% block eliberty_keycard_open_widget %}
