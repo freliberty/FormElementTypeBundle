@@ -3,10 +3,6 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Eliberty\Bundle\FormElementTypeBundle\Form\DataTransformer\SkiCardTransformer;
 
 /**
  * Class TranslateTextType
