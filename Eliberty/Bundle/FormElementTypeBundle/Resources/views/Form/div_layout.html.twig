@@ -467,3 +467,41 @@
         <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="form-control">
     {% endspaceless %}
 {% endblock eliberty_textmask_widget %}
+
+
+
+{% block eliberty_translatetext_widget %}
+    {% spaceless %}
+        <div class="row">
+            <div class="col-lg-11">
+                <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="form-control">
+            </div>
+            <div class="col-lg-1 pull-right">
+                {% set entityName = getEntityName(form.parent.vars.data) %}
+                <a id="{{entityName}}_trans_{{ form.parent.vars.data.id }}_{{form.vars.name}}" rp-title="Traduction de '{{form.vars.name}}'"
+                   rp-target="/console/translation/{{entityName}}/{{ form.parent.vars.data.id }}/{{form.vars.name}}?fieldtype=textarea"
+                   class="rp-dialog btn btn-primary pull-right" onclick="makeMyModal('{{entityName}}_trans_{{ form.parent.vars.data.id }}_{{form.vars.name}}')">
+                    <i class="fa fa-tumblr-square"></i>
+                </a>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_translatetext_widget %}
+
+{% block eliberty_translatetextarea_widget %}
+    {% spaceless %}
+        <div class="row">
+            <div class="col-lg-11">
+                <textarea type="text" {{ block('widget_attributes') }}>{{ value }}</textarea>
+            </div>
+            <div class="col-lg-1 pull-right">
+                {% set entityName = getEntityName(form.parent.vars.data) %}
+                <a id="{{entityName}}_trans_{{ form.parent.vars.data.id }}_{{form.vars.name}}" rp-title="Traduction de '{{form.vars.name}}'"
+                   rp-target="/console/translation/{{entityName}}/{{ form.parent.vars.data.id }}/{{form.vars.name}}?fieldtype=textarea"
+                   class="rp-dialog btn btn-primary pull-right" onclick="makeMyModal('{{entityName}}_trans_{{ form.parent.vars.data.id }}_{{form.vars.name}}')">
+                    <i class="fa fa-tumblr-square"></i>
+                </a>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_translatetextarea_widget %}
