@@ -372,10 +372,10 @@
             <div class="col-xs-{% if form.vars.attr.firstDiv is defined %}{{form.vars.attr.firstDiv}}{% else %}2{% endif %} no-padding-left chip">
                 {{ form_widget(form.chip) }}
             </div>
-            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}8{% endif %} no-padding key-center serial">
+            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}8{% endif %} no-padding-left key-center serial">
                 {{ form_widget(form.base) }}
             </div>
-            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}2{% endif %}  no-padding-right pull-right luhn">
+            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}2{% endif %}  no-padding pull-right luhn">
                 {{ form_widget(form.luhn) }}
             </div>
         </div>
@@ -405,10 +405,10 @@
             <div class="col-xs-{% if form.vars.attr.firstDiv is defined %}{{form.vars.attr.firstDiv}}{% else %}8{% endif %} no-padding-left wtp">
                 {{ form_widget(form.wtp) }}
             </div>
-            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}2{% endif %} no-padding crc">
+            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}2{% endif %} no-padding-left crc">
                 {{ form_widget(form.crc) }}
             </div>
-            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}2{% endif %}  no-padding-right pull-right acceptance">
+            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}2{% endif %}  no-padding pull-right acceptance">
                 {{ form_widget(form.acceptance) }}
             </div>
         </div>
