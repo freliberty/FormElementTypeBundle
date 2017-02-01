@@ -402,13 +402,13 @@
     {% spaceless %}
 
         <div class="row teamaxess_keycard no-margin">
-            <div class="col-xs-{% if form.vars.attr.firstDiv is defined %}{{form.vars.attr.firstDiv}}{% else %}8{% endif %} no-padding-left wtp">
+            <div class="col-xs-{% if form.vars.attr.firstDiv is defined %}{{form.vars.attr.firstDiv}}{% else %}6{% endif %} no-padding-left wtp">
                 {{ form_widget(form.wtp) }}
             </div>
-            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}2{% endif %} no-padding-left crc">
+            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}3{% endif %} no-padding-left crc">
                 {{ form_widget(form.crc) }}
             </div>
-            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}2{% endif %}  no-padding pull-right acceptance">
+            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}3{% endif %}  no-padding pull-right acceptance">
                 {{ form_widget(form.acceptance) }}
             </div>
         </div>
