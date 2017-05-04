@@ -88,13 +88,20 @@ class KeycardAlfiType extends AbstractType
 
         $resolver->setNormalizer('empty_value', $emptyValueNormalizer);
     }
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'eliberty_keycard_alfi';
+    }
 
     /**
      * @return string
      */
     public function getName()
     {
-        return 'eliberty_keycard_alfi';
+        return $this->getBlockPrefix();
     }
 
 }

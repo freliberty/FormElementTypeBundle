@@ -2,9 +2,9 @@
 
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class MultiSelectType
@@ -28,7 +28,15 @@ class MultiSelectType extends AbstractType
      */
     public function getParent()
     {
-        return 'entity';
+        return EntityType::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'eliberty_multiselect';
     }
 
     /**
@@ -36,6 +44,6 @@ class MultiSelectType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_multiselect';
+        return $this->getBlockPrefix();
     }
 }

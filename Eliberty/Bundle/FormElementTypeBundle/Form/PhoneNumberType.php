@@ -3,6 +3,7 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -27,7 +28,15 @@ class PhoneNumberType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return TextType::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'eliberty_phonenumber';
     }
 
     /**
@@ -35,6 +44,6 @@ class PhoneNumberType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_phonenumber';
+        return $this->getBlockPrefix();
     }
 }

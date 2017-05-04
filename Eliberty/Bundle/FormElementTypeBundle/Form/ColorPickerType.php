@@ -2,6 +2,7 @@
 
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,7 +28,15 @@ class ColorPickerType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return TextType::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'eliberty_colorpicker';
     }
 
     /**
@@ -35,6 +44,6 @@ class ColorPickerType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_colorpicker';
+        return $this->getBlockPrefix();
     }
 }

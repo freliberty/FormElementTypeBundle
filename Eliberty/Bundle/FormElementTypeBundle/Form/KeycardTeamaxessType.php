@@ -3,6 +3,7 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,9 +31,9 @@ class KeycardTeamaxessType extends AbstractType
         $acceptOptions['attr'] = ['maxlength' => 3];
 
         $builder
-            ->add('wtp', "text", $wtpOptions)
-            ->add('crc', "text", $crcOptions)
-            ->add('acceptance', "text", $acceptOptions)
+            ->add('wtp', TextType::class, $wtpOptions)
+            ->add('crc', TextType::class, $crcOptions)
+            ->add('acceptance', TextType::class, $acceptOptions)
             ->addViewTransformer($this->getTransformer());
 
     }
@@ -91,9 +92,16 @@ class KeycardTeamaxessType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'eliberty_keycard_teamaxess';
     }
 
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
 }

@@ -9,6 +9,7 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,8 +36,8 @@ class KeycardOpenType extends AbstractType {
         $luhnOptions['attr'] = ['maxlength' => 1];
 
         $builder
-            ->add('base', "text", $baseOptions)
-            ->add('luhn', "text", $luhnOptions)
+            ->add('base', TextType::class, $baseOptions)
+            ->add('luhn', TextType::class, $luhnOptions)
             ->addViewTransformer($this->getTransformer());
     }
 
@@ -93,8 +94,16 @@ class KeycardOpenType extends AbstractType {
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'eliberty_keycard_open';
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }

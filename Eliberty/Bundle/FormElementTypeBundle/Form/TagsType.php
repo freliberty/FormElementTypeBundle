@@ -2,11 +2,9 @@
 
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Class TagsType
@@ -30,7 +28,15 @@ class TagsType extends AbstractType
      */
     public function getParent()
     {
-        return 'entity';
+        return EntityType::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'eliberty_tags';
     }
 
     /**
@@ -38,8 +44,7 @@ class TagsType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_tags';
+        return $this->getBlockPrefix();
     }
-
 
 }

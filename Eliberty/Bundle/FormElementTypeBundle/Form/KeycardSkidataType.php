@@ -3,6 +3,7 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,9 +31,9 @@ class KeycardSkidataType extends AbstractType
         $luhnOptions['attr'] = ['maxlength' => 1];
 
         $builder
-            ->add('chip', "text", $chipOptions)
-            ->add('base', "text", $baseOptions)
-            ->add('luhn', "text", $luhnOptions)
+            ->add('chip', TextType::class, $chipOptions)
+            ->add('base', TextType::class, $baseOptions)
+            ->add('luhn', TextType::class, $luhnOptions)
             ->addViewTransformer($this->getTransformer());
 
     }
@@ -92,9 +93,16 @@ class KeycardSkidataType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'eliberty_keycard_skidata';
     }
 
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
 }

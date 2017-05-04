@@ -3,6 +3,7 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -26,7 +27,15 @@ class RestChoiceType extends AbstractType
      */
     public function getParent()
     {
-        return 'choice';
+        return ChoiceType::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'eliberty_rest_choice';
     }
 
     /**
@@ -34,6 +43,6 @@ class RestChoiceType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_rest_choice';
+        return $this->getBlockPrefix();
     }
 }

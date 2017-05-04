@@ -4,6 +4,7 @@ namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Eliberty\Bundle\FormElementTypeBundle\Form\DataTransformer\EntityToIdTransformer;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -55,7 +56,15 @@ class EntityHiddenType extends AbstractType
      */
     public function getParent()
     {
-        return 'hidden';
+        return HiddenType::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'eliberty_entity_hidden';
     }
 
     /**
@@ -63,6 +72,6 @@ class EntityHiddenType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_entity_hidden';
+        return $this->getBlockPrefix();
     }
 }

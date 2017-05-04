@@ -3,6 +3,7 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -27,7 +28,15 @@ class MarkdownEditorType extends AbstractType
      */
     public function getParent()
     {
-        return 'textarea';
+        return TextareaType::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'eliberty_markdown_editor';
     }
 
     /**
@@ -35,6 +44,6 @@ class MarkdownEditorType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_markdown_editor';
+        return $this->getBlockPrefix();
     }
 }

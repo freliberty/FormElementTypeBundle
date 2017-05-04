@@ -26,7 +26,15 @@ class IntegerType extends AbstractType
      */
     public function getParent()
     {
-        return 'integer';
+        return \Symfony\Component\Form\Extension\Core\Type\IntegerType::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'eliberty_integer';
     }
 
     /**
@@ -34,6 +42,6 @@ class IntegerType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_integer';
+        return $this->getBlockPrefix();
     }
 }

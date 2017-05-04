@@ -3,6 +3,7 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class JsonType extends AbstractType
@@ -22,7 +23,15 @@ class JsonType extends AbstractType
      */
     public function getParent()
     {
-        return 'textarea';
+        return TextType::class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'eliberty_json';
     }
 
     /**
@@ -30,6 +39,6 @@ class JsonType extends AbstractType
      */
     public function getName()
     {
-        return 'eliberty_json';
+        return $this->getBlockPrefix();
     }
 }
