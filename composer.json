@@ -17,7 +17,7 @@
         "symfony/config": ">=2.1.0",
         "symfony/dependency-injection": ">=2.1.0",
         "symfony/http-kernel": ">=2.1.0",
-        "justinrainbow/json-schema": "~5.2"
+        "justinrainbow/json-schema": "~1.6"
     },
     "extra": {
         "branch-alias":{
