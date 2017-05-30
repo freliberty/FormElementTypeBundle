@@ -378,10 +378,10 @@
             <div class="col-xs-{% if form.vars.attr.firstDiv is defined %}{{form.vars.attr.firstDiv}}{% else %}2{% endif %} no-padding-left chip">
                 {{ form_widget(form.chip) }}
             </div>
-            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}8{% endif %} no-padding key-center serial">
+            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}8{% endif %} no-padding-left key-center serial">
                 {{ form_widget(form.base) }}
             </div>
-            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}2{% endif %}  no-padding-right pull-right luhn">
+            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}2{% endif %}  no-padding pull-right luhn">
                 {{ form_widget(form.luhn) }}
             </div>
         </div>
@@ -406,19 +406,19 @@
 
 {% block eliberty_keycard_teamaxess_widget %}
     {% spaceless %}
-        <div class="row teamaxess_keycard">
-            <div class="col-xs-6 no-padding wtp">
+
+        <div class="row teamaxess_keycard no-margin">
+            <div class="col-xs-{% if form.vars.attr.firstDiv is defined %}{{form.vars.attr.firstDiv}}{% else %}6{% endif %} no-padding-left wtp">
                 {{ form_widget(form.wtp) }}
             </div>
-            <div class="col-xs-1 no-padding"> </div>
-            <div class="col-xs-2 no-padding crc">
+            <div class="col-xs-{% if form.vars.attr.secondDiv is defined %}{{form.vars.attr.secondDiv}}{% else %}3{% endif %} no-padding-left crc">
                 {{ form_widget(form.crc) }}
             </div>
-            <div class="col-xs-1 no-padding"> </div>
-            <div class="col-xs-2 no-padding acceptance">
+            <div class="col-xs-{% if form.vars.attr.thirdDiv is defined %}{{form.vars.attr.thirdDiv}}{% else %}3{% endif %}  no-padding pull-right acceptance">
                 {{ form_widget(form.acceptance) }}
             </div>
         </div>
+
     {% endspaceless %}
 {% endblock eliberty_keycard_teamaxess_widget %}
 {% block eliberty_keycard_open_widget %}
@@ -473,3 +473,41 @@
         <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="form-control">
     {% endspaceless %}
 {% endblock eliberty_textmask_widget %}
+
+
+
+{% block eliberty_translatetext_widget %}
+    {% spaceless %}
+        <div class="row">
+            <div class="col-lg-11">
+                <input type="text" value="{{ value }}" {{ block('widget_attributes') }} class="form-control">
+            </div>
+            <div class="col-lg-1 pull-right">
+                {% set entityName = getEntityName(form.parent.vars.data) %}
+                <a id="{{entityName}}_trans_{{ form.parent.vars.data.id }}_{{form.vars.name}}" rp-title="Traduction de '{{form.vars.name}}'"
+                   rp-target="/console/translation/{{entityName}}/{{ form.parent.vars.data.id }}/{{form.vars.name}}?fieldtype=textarea"
+                   class="rp-dialog btn btn-primary pull-right" onclick="makeMyModal('{{entityName}}_trans_{{ form.parent.vars.data.id }}_{{form.vars.name}}')">
+                    <i class="fa fa-tumblr-square"></i>
+                </a>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_translatetext_widget %}
+
+{% block eliberty_translatetextarea_widget %}
+    {% spaceless %}
+        <div class="row">
+            <div class="col-lg-11">
+                <textarea type="text" {{ block('widget_attributes') }}>{{ value }}</textarea>
+            </div>
+            <div class="col-lg-1 pull-right">
+                {% set entityName = getEntityName(form.parent.vars.data) %}
+                <a id="{{entityName}}_trans_{{ form.parent.vars.data.id }}_{{form.vars.name}}" rp-title="Traduction de '{{form.vars.name}}'"
+                   rp-target="/console/translation/{{entityName}}/{{ form.parent.vars.data.id }}/{{form.vars.name}}?fieldtype=textarea"
+                   class="rp-dialog btn btn-primary pull-right" onclick="makeMyModal('{{entityName}}_trans_{{ form.parent.vars.data.id }}_{{form.vars.name}}')">
+                    <i class="fa fa-tumblr-square"></i>
+                </a>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock eliberty_translatetextarea_widget %}

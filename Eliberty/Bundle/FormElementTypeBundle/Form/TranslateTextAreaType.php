@@ -3,28 +3,14 @@
 namespace Eliberty\Bundle\FormElementTypeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-
-
 /**
- * Class KeycardSkidataType
+ * Class TranslateTextAreaType
  * @package Eliberty\Bundle\FormElementTypeBundle\Form
  */
-class TextMaskType extends AbstractType
+class TranslateTextAreaType extends AbstractType
 {
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'mask' => 'single_text'
-        ));
-    }
 
     /**
      * @return null|string|\Symfony\Component\Form\FormTypeInterface
@@ -39,7 +25,7 @@ class TextMaskType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'eliberty_textmask';
+        return 'eliberty_translatetextarea';
     }
 
     /**
@@ -49,4 +35,5 @@ class TextMaskType extends AbstractType
     {
         return $this->getBlockPrefix();
     }
+
 }

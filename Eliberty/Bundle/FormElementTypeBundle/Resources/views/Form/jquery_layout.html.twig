@@ -128,22 +128,15 @@
                             autoclose: true,
                             startDate: {% if attr.startDate is defined %}"{{ attr.startDate }}"
                             {% else %}moment().toDate(){% endif %},
-                        weekStart
-                :
-                1,
-                        language
-                :
-                '{{ app.request.locale |lower }}',
-                        onRender
-                :
-                function (date) {
-                    return date.valueOf() < tomorrow.valueOf() ? 'disabled' : '';
-                }
-            }
-                ).
-                on('show', function (e) {
-                    $('.datepicker').css('z-index', 99999999999999);
-                });
+                            weekStart: 1,
+                            language: '{{ app.request.locale |lower }}',
+                            onRender: function (date) {
+                                return date.valueOf() < tomorrow.valueOf() ? 'disabled' : '';
+                            }
+                        }
+                ).on('show', function (e) {
+                            $('.datepicker').css('z-index', 99999999999999);
+                        });
                 $('.glyphicon-calendar').on('click', function (e) {
                     $(this).closest('.input-group').find('input').datepicker('show');
                 });
@@ -183,70 +176,94 @@
 {% endblock eliberty_decimal_javascript %}
 
 {% block eliberty_rest_choice_javascript %}
+    {% spaceless %}
     <script type="text/javascript">
-        {% if attr.start is defined and attr.start != "" %}
-        $(function () {
-            $('#{{ id }}').chosen()
-        });
-        function {{ attr.start }} {
-            var valueParent = $('#' + id).val();
-            var newParams = null;
-            {% if attr.params is defined and attr.params != "" %}
-            var params = "{{ attr.params }}";
-            var newParams = params.replace('(id)', valueParent);
-            {% if attr.parentId is defined and attr.parentId != "" %}
-            var valueFirstParent = $('#{{ attr.parentId }}').val();
-            newParams = newParams.replace('(parentId)', valueFirstParent)
-            {% endif %}
-            {% endif %}
-            {% else %}
+        if (typeof list == 'undefined') {
+            var list = new Array();;
+        }
+        {% if attr.methodName is defined %}
+            function {{ attr.methodName }} {
+                var valueParent = $('#' + id).val();
+        {% else %}
             $(function () {
-                        $('#{{ id }}').chosen()
-                        var newParams = null;
-                        {% endif %}
-                        var newRoute = '{{ attr.route }}';
-                        if (typeof valueParent != 'undefined' && newRoute.indexOf('-1')) {
-                            newRoute = newRoute.replace('-1', valueParent);
-                        }
-                        var spinner = $('.container_spinner').html();
-                        $.when($.ajax({
-                            type: 'GET',
-                            dataType: 'json',
-                            data: {'params': newParams},
-                            url: newRoute,
-                            {% if attr.ajaxstart is defined and attr.ajaxstart != "" %}
-                            beforeSend: function () {
-                                $(".{{ attr.ajaxstart }}").empty().html($('.container_spinner').html());
-                            },
-                            complete: function () {
-                                $(".{{ attr.ajaxstart }}").empty();
-                            },
-                            {% endif %}
-                        })).then(function (data) {
-                            var obj = $('#{{ id }}');
-                            obj.find("option").remove();
-                            // obj.append(new Option('-----------------------------------------', -1));
-                            $.each({{ attr.dataResponse }}, function (i, item) {
-                                var option = new Option({{ attr.dataLabel }}, item.id);
-                                $(option).attr('data', encodeURIComponent(JSON.stringify(item)));
-                                obj.append(option);
-                                //return false;
-                            });
-                            {% if attr.change is defined and attr.change != null %}
-                            obj.val('').trigger("chosen:updated");
-                            obj.chosen().on("change", function (e) {
-                                {{ attr.change }}('{{ id }}');
-                            });
-                            {% endif %}
-                            $('ul.dropdown-menu.inner').css('position', 'relative');
-                            $('ul.dropdown-menu.inner').find('li').find('i').remove();
-                        }, function (err) {
-                            onAjaxApiError(err);
-                        });
-                    }
-                    {% if attr.start is not defined %}
-            );
+                'use strict';
         {% endif %}
+                list['{{ id }}'] = $('#{{ id }}') ;
+                var {{ id }}_header      = {% if attr.header is defined %}{{ attr.header|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}{% else %} {} {% endif %};
+                var {{ id }}_params      = {% if attr.params is defined %}{{ attr.params|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}{% else %} {} {% endif %};
+                var {{ id }}_newRoute    = '{{ attr.route }}';
+                var {{ id }}_divSpinner  = {% if attr.divSpinner is defined %} {{ attr.divSpinner }} {% else %} 'divSpinner' {% endif %};
+                var {{ id }}_defaultValue   = {% if attr.defaultValue  is defined %} '{{ attr.defaultValue  }}' {% else %} 'undefined' {% endif %};
+                if (typeof valueParent != 'undefined') {
+                    {{ id }}_newRoute = {{ id }}_newRoute.replace('0', valueParent);
+                }
+                $.when($.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {{ id }}_params,
+                    headers: {{ id }}_header,
+                    url: {{ id }}_newRoute,
+                    beforeSend: function () {
+                        $("."+ {{ id }}_divSpinner).empty().html($('.container_spinner').html());
+                        $('#{{ id }}').find("option, optgroup").remove()
+                    },
+                    complete: function () {
+                        $("."+ {{ id }}_divSpinner).empty();
+                        $('#{{ id }}').removeAttr('disabled');
+                        $('#{{ id }}').val('');
+                    },
+                })).then(function (data) {
+                    if (data.length !== 0) {
+                        var obj = $('#{{ id }}');
+                        var embedTab = new Array();
+                        var data = {{ attr.dataResponse }};
+                        var dataParams = [data.length, {{ id }}_defaultValue];
+                        {% if attr.change is defined and attr.change != null %}
+                            obj.on("change", function (e) {
+                                var params = [false];
+                                Object.keys(list).forEach(function(key, item) {
+                                    if (params[0] === true) {
+                                        $('#s2id_'+key).find('.select2-chosen').text('');
+                                        $('#'+key).val('').attr('disabled', true).trigger("chosen:updated");
+                                    }
+                                    if (key === '{{ id }}') {
+                                        params[0] = true;
+                                    }
+                                }, params);
+                                {% for item in attr.change %}
+                                {{ item }}('{{ id }}');
+                                {% else  %}
+                                {{ attr.change }}('{{ id }}');
+                                {% endfor %}
+                            });
+                        {% endif %}
+                        $.each(data, function (i, item) {
+                            var option = new Option(eval('{{ attr.dataLabel }}'), this.id);
+                            {% if attr.dataLabelEmbed is defined %}
+                            var embedLabel = eval('{{ attr.dataLabelEmbed }}')
+                                if (typeof embedTab[embedLabel.trim().toLowerCase()] === 'undefined') {
+                                    var group = $('<optgroup id="' + embedLabel.trim().toLowerCase() + '" label="' + embedLabel + '" />');
+                                    embedTab[embedLabel.trim().toLowerCase()] = group;
+                                } else {
+                                    group = embedTab[embedLabel.trim().toLowerCase()];
+                                }
+                                $(option).appendTo(group);
+                                group.appendTo(obj);
+                            {% else %}
+                                $(option).appendTo(obj);
+                            {%  endif  %}
+                            if (dataParams[1] !== 'undefined' && eval(dataParams[1])) { //||  dataParams[0] === 1
+                                $('#s2id_'+'{{ id }}').find('.select2-chosen').text(eval('{{ attr.dataLabel }}'));
+                                obj.val(item.id).trigger("chosen:updated").trigger( "click" );
+                            }
+
+                        }, dataParams);
+                    }
+                }, function (err) {
+                    $("."+ {{ id }}_divSpinner).empty();
+                    onAjaxApiError(err);
+                });
+            }{% if attr.methodName is not defined %});{% endif %}
     </script>
 {% endblock eliberty_rest_choice_javascript %}
 
@@ -275,7 +292,7 @@
         <script type="text/javascript">
             $(function () {
                 'use strict';
-                $('#{{ form.vars.id }}').chosen({
+                $('#{{ id }}').chosen({
                     width: "95%",
                     {% if attr.max_selected_options is defined %}
                     max_selected_options: {{ attr.max_selected_options }}, {% endif %}
@@ -526,6 +543,7 @@
 {% block eliberty_phonenumber_javascript %}
     {% spaceless %}
         {% include 'ElibertyFormElementTypeBundle:Form/Js/' ~ formelementtypemode ~':phonenumber.html.twig' %}
+        {% set utilsScript = asset('bundles/' ~ formelementtypemode|lower ~ '/components/home24-intl-tel-input/lib/libphonenumber/build/utils.js') %}
         <script type="text/javascript">
             $(function () {
                 var input = $('#{{ id }}');
@@ -542,7 +560,7 @@
                     numberType: customNumberType,
                     initialCountry: defaultCountry,
                     preferredCountries: [defaultCountry],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/7.1.1/lib/libphonenumber/build/utils.js"
+                    utilsScript: '{{ utilsScript }}'
                 });
 
                 // Add class which is removed after JS executing
@@ -575,6 +593,8 @@
              * Display or not asterisk field
              **/
             function initAsterisk(input, displayAsterisk) {
+                input.parent().parent().find('span.phone-asterisk').hide();
+
                 // Display asterisk
                 if (displayAsterisk) {
                     input.parent().parent().find('span.phone-asterisk').show();
