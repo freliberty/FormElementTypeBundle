@@ -122,7 +122,7 @@
 {% block eliberty_datepicker_label %}
     {% spaceless %}
         <label  class=" control-label col-lg-3 optional">
-            {{ label }}
+            {{ label | trans({}, translation_domain) }}
         </label>
     {% endspaceless %}
 {% endblock eliberty_datepicker_label %}
